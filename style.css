@@ -96,7 +96,7 @@ body{
     padding: calc(0.7 * var(--padlittle));
     color: black;
     font-weight: 600;
-    margin-right: var(--gap);
+    margin-right:calc(0.8 * var(--gap));
     border-radius: calc(0.5 * var(--radius));
     border: 0;  
     font-size: calc( 0.7 * var(--fontsmall));
@@ -394,7 +394,7 @@ input, textarea{
     background: rgba(124, 62, 255, 0.10) !important;
 }
  .textareabox{
-    align-items: flex-start;
+    align-items: flex-start !important;
     flex: 1;
 }
  .textareabox textarea{
@@ -462,18 +462,20 @@ input, textarea{
     height: 100%;
     flex-direction: column;
 }
-.step1, .step2{
-    flex: 1;
-} 
 .ems-content .form{
     display: flex;
     flex-direction: column;
     gap:var(--gap);
+    width: 100%;
 }
-.ems-content .step1 .step1form{
+.ems-steps{
+    display: flex;
+    flex-direction: column;
     max-height: 35vh;
     overflow-y: scroll;
+    padding-top: var(--padmedium);
     padding-right: var(--padmedium);
+    gap: var(--gap);
 }
 .ems-btns{
     margin:0 auto;
@@ -555,6 +557,10 @@ input, textarea{
 }
 .ems-content .textareabox{
     flex: 1;
+}
+.ems-steps{
+    display: flex;
+
 }
 .applications{
     display: flex;
