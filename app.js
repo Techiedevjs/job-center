@@ -206,6 +206,89 @@ const emsQuestions = [
         id:"applicantcountry"
     },
 ]
+const stepsWithQuestions = [
+    [
+        {
+            title: "Your Name",
+            type: 'input',
+            id:"applicantname"
+        },
+        {
+            title: "Briefly About You",
+            type: 'textarea',
+            id:"applicantabout"
+        },
+        {
+            title: "Country",
+            type: 'input',
+            id:"applicantcountry"
+        },
+    ],
+    [
+        {
+            title: "Input and Textarea working now",
+            type: 'input',
+            id:"applicantname"
+        },
+        {
+            title: "Everybody needs to chilll",
+            type: 'textarea',
+            id:"applicantabout"
+        },
+        {
+            title: "Country",
+            type: 'input',
+            id:"applicantcountry"
+        },
+    ],
+    [
+        {
+            title: "Your Name",
+            type: 'input',
+            id:"applicantname"
+        },
+        {
+            title: "chill first",
+            type: 'textarea',
+            id:"applicantabout"
+        },
+        {
+            title: "State",
+            type: 'input',
+            id:"applicantcountry"
+        },
+    ]
+]
+const pushSteps = (data) => {
+    const totalsteps = data.length
+    let classCount = 1
+    data.map((step) => {
+        document.querySelector('#ems-steps-container').innerHTML += `
+        <div class='step${classCount} ems-steps ${classCount === 1 ? '' : 'hide'}'></div>
+        `
+        step.map((item) => pushStepQuestions(item, `.step${classCount}`))
+        classCount ++
+    })
+}
+const pushStepQuestions = (stepData, elem) => {
+    const {title, type, id} = stepData;
+    if (type === 'dropdown'){
+
+    } else {
+        getElement(elem).innerHTML += `
+        <div class="${type}box flexlittle" id="${id}">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <path d="M12.7025 6.06027L9.912 3.29863L10.8312 2.37808C11.0829 2.12603 11.3922 2 11.759 2C12.1258 2 12.4349 2.12603 12.6861 2.37808L13.6054 3.29863C13.8571 3.55068 13.9884 3.8549 13.9993 4.21129C14.0103 4.56767 13.8899 4.87167 13.6382 5.12329L12.7025 6.06027ZM11.7505 7.03014L4.79054 14H2V11.2055L8.95993 4.23562L11.7505 7.03014Z" fill="white" fill-opacity="0.35"/>
+        </svg>
+        ${type === 'textarea' ? 
+        `<textarea name="ems${id}" id="ems${id}" placeholder="${title}" rows="6"></textarea>` :
+        `<input type="text" name="ems${id}" id="ems${id}" placeholder="${title}"> `
+        }
+    </div>
+    `
+    }
+}
+pushSteps(stepsWithQuestions)
 const pushEmsStep1 = (questions) => {
     getElement('.step1form').innerHTML = ''
     questions.map((question) => {
@@ -223,21 +306,21 @@ const pushEmsStep1 = (questions) => {
         `
     })
 }
-pushEmsStep1(emsQuestions)
+// pushEmsStep1(emsQuestions)
 getElement('.menu-ems').addEventListener('click', () => {
     getElement('#applicationSteps').classList.remove("hide")
     getElement('#applicationContents').classList.add("hide")
 })
 // EMS INPUT ACTIVE STATE
-emsQuestions.map((question) => {
-    const {id} = question;
-    getElement(`#ems${id}`).addEventListener('focus', () => {
-        getElement(`#${id}`).classList.add('inputactive')
-    })
-    getElement(`#ems${id}`).addEventListener('focusout', () => {
-        getElement(`#${id}`).classList.remove('inputactive')
-    })
-})
+// emsQuestions.map((question) => {
+//     const {id} = question;
+//     getElement(`#ems${id}`).addEventListener('focus', () => {
+//         getElement(`#${id}`).classList.add('inputactive')
+//     })
+//     getElement(`#ems${id}`).addEventListener('focusout', () => {
+//         getElement(`#${id}`).classList.remove('inputactive')
+//     })
+// })
 // SWITCH TO NEXT AND PREVIOUS STEP
 const steps = [getElement('.step1'),getElement('.step2')]
 let stepCount = 0
@@ -288,8 +371,8 @@ const prevStep = () => {
         })
     }
 }
-pushDaysDropDown('ems');
-pushDepartmentsDropDown('ems');
+// pushDaysDropDown('ems');
+// pushDepartmentsDropDown('ems');
 let emsData = {
     id: '',
     status: 'pending',
