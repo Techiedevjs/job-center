@@ -145,15 +145,15 @@ const toggleDropDown = (name) => {
     getElement(name).classList.toggle('activedropdown');
     getElement(name + 'dropdown').classList.toggle('hidden');
     getElement(name + 'dropdown').classList.toggle('daysdropdown');
-    if(name === '.emsworkschedule'){
-        closeDropDown('.emsdepartmentschedule')
-    } else if(name === '.emsdepartmentschedule'){
-        closeDropDown('.emsworkschedule')
-    } else if(name === '.policeworkschedule'){
-        closeDropDown('.policedepartmentschedule')
-    } else if(name === '.policedepartmentschedule'){
-        closeDropDown('.policeworkschedule')
-    }
+    // if(name === '.emsworkschedule'){
+    //     closeDropDown('.emsdepartmentschedule')
+    // } else if(name === '.emsdepartmentschedule'){
+    //     closeDropDown('.emsworkschedule')
+    // } else if(name === '.policeworkschedule'){
+    //     closeDropDown('.policedepartmentschedule')
+    // } else if(name === '.policedepartmentschedule'){
+    //     closeDropDown('.policeworkschedule')
+    // }
 }
 let policeRequest = {
     name: '',
@@ -189,27 +189,10 @@ const refreshPoliceForm = () => {
     })
 }
 // EMS 
-const emsQuestions = [
-    {
-        title: "Your Name",
-        type: 'input',
-        id:"applicantname"
-    },
-    {
-        title: "Briefly About You",
-        type: 'textarea',
-        id:"applicantabout"
-    },
-    {
-        title: "Country",
-        type: 'input',
-        id:"applicantcountry"
-    },
-]
 const stepsWithQuestions = [
     [
         {
-            title: "Your Name",
+            title: "Your Name1",
             type: 'input',
             id:"applicantname"
         },
@@ -226,106 +209,133 @@ const stepsWithQuestions = [
     ],
     [
         {
-            title: "Input and Textarea working now",
+            title: "Input and Textarea working now2",
             type: 'input',
-            id:"applicantname"
+            id:"testing"
         },
         {
             title: "Everybody needs to chilll",
             type: 'textarea',
-            id:"applicantabout"
+            id:"everybodychill"
         },
         {
-            title: "Country",
-            type: 'input',
-            id:"applicantcountry"
+            title: "Gender",
+            type: 'dropdown',
+            id:"genderdropdown",
+            dropdowncontents: ['male', 'female'],
+            dropdowntitle: "gender"
         },
     ],
     [
         {
-            title: "Your Name",
-            type: 'input',
-            id:"applicantname"
+            title: "Your region",
+            type: 'dropdown',
+            id:"regiondropdown",
+            dropdowncontents: ['north', "west", "south", "east"],
+            dropdowntitle: "region"
         },
         {
             title: "chill first",
             type: 'textarea',
-            id:"applicantabout"
+            id:"applcheck"
         },
         {
             title: "State",
             type: 'input',
-            id:"applicantcountry"
+            id:"state"
         },
-    ]
+    ],
 ]
+const totalsteps = stepsWithQuestions.length
+let steps = []
+let classCount = 1
 const pushSteps = (data) => {
-    const totalsteps = data.length
-    let classCount = 1
     data.map((step) => {
         document.querySelector('#ems-steps-container').innerHTML += `
         <div class='step${classCount} ems-steps ${classCount === 1 ? '' : 'hide'}'></div>
         `
+        steps.push(`.step${classCount}`)
         step.map((item) => pushStepQuestions(item, `.step${classCount}`))
         classCount ++
     })
 }
 const pushStepQuestions = (stepData, elem) => {
-    const {title, type, id} = stepData;
+    const {title, type, id, dropdowncontents, dropdowntitle} = stepData;
     if (type === 'dropdown'){
-
+        getElement(elem).innerHTML += `
+        <section class="${dropdowntitle} dropdown relative">
+            <div class="flexlittle">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                <path d="M9.99996 1.66667C14.6025 1.66667 18.3333 5.3975 18.3333 10C18.3333 14.6025 14.6025 18.3333 9.99996 18.3333C5.39746 18.3333 1.66663 14.6025 1.66663 10C1.66663 5.3975 5.39746 1.66667 9.99996 1.66667ZM9.99996 5C9.77895 5 9.56698 5.0878 9.4107 5.24408C9.25442 5.40036 9.16663 5.61232 9.16663 5.83333V10C9.16667 10.221 9.2545 10.4329 9.41079 10.5892L11.9108 13.0892C12.068 13.241 12.2785 13.325 12.497 13.3231C12.7155 13.3212 12.9245 13.2335 13.079 13.079C13.2335 12.9245 13.3211 12.7155 13.323 12.497C13.3249 12.2785 13.2409 12.068 13.0891 11.9108L10.8333 9.655V5.83333C10.8333 5.61232 10.7455 5.40036 10.5892 5.24408C10.4329 5.0878 10.221 5 9.99996 5Z" fill="white" fill-opacity="0.35"/>
+            </svg>
+            <p class="fs">${title}</p>
+            </div>
+            <div class="flexlittle pointer semibold days" onclick="toggleDropDown('.${dropdowntitle}')">
+            <p class="upper">${dropdowntitle}</p>
+            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="7" viewBox="0 0 12 7" fill="none">
+                <path d="M5.46967 6.53033C5.76256 6.82322 6.23744 6.82322 6.53033 6.53033L11.3033 1.75736C11.5962 1.46447 11.5962 0.989593 11.3033 0.6967C11.0104 0.403806 10.5355 0.403806 10.2426 0.6967L6 4.93934L1.75736 0.696699C1.46447 0.403805 0.989593 0.403805 0.6967 0.696699C0.403806 0.989592 0.403806 1.46447 0.696699 1.75736L5.46967 6.53033ZM5.25 5L5.25 6L6.75 6L6.75 5L5.25 5Z" fill="white" fill-opacity="0.65"/>
+            </svg>
+            </div>
+            <div class="${dropdowntitle}dropdown hidden">
+            </div>
+        </section>
+        `
+        dropdowncontents.map((value) => {
+            document.querySelector(`.${dropdowntitle}dropdown`).innerHTML += `
+            <div class="${ value}" onclick="selectOption()">
+            <h4>${value}</h4>
+            <span class="checkbox">
+            <svg xmlns="http://www.w3.org/2000/svg" class="${value}check hidden" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <path d="M6.63636 12L3 8.19048L4.27273 6.85714L6.63636 9.33333L11.7273 4L13 5.33333L6.63636 12Z" fill="black"/>
+            </svg>
+            </span>
+        </div>
+            `
+        })
     } else {
         getElement(elem).innerHTML += `
         <div class="${type}box flexlittle" id="${id}">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none" >
             <path d="M12.7025 6.06027L9.912 3.29863L10.8312 2.37808C11.0829 2.12603 11.3922 2 11.759 2C12.1258 2 12.4349 2.12603 12.6861 2.37808L13.6054 3.29863C13.8571 3.55068 13.9884 3.8549 13.9993 4.21129C14.0103 4.56767 13.8899 4.87167 13.6382 5.12329L12.7025 6.06027ZM11.7505 7.03014L4.79054 14H2V11.2055L8.95993 4.23562L11.7505 7.03014Z" fill="white" fill-opacity="0.35"/>
         </svg>
         ${type === 'textarea' ? 
-        `<textarea name="ems${id}" id="ems${id}" placeholder="${title}" rows="6"></textarea>` :
-        `<input type="text" name="ems${id}" id="ems${id}" placeholder="${title}"> `
+        `<textarea name="ems${id}" id="ems${id}" placeholder="${title}" onfocus="activeStateOn('${id}')" onfocusout="activeStateOut('${id}')"></textarea> ` :
+        `<input type="text" name="ems${id}" id="ems${id}" placeholder="${title}" onfocus="activeStateOn('${id}')" onfocusout="activeStateOut('${id}')"> `
         }
     </div>
     `
     }
 }
-pushSteps(stepsWithQuestions)
-const pushEmsStep1 = (questions) => {
-    getElement('.step1form').innerHTML = ''
-    questions.map((question) => {
-        const {title, type, id} = question;
-        getElement('.step1form').innerHTML += `
-        <div class="${type}box flexlittle" id="${id}">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
-                <path d="M12.7025 6.06027L9.912 3.29863L10.8312 2.37808C11.0829 2.12603 11.3922 2 11.759 2C12.1258 2 12.4349 2.12603 12.6861 2.37808L13.6054 3.29863C13.8571 3.55068 13.9884 3.8549 13.9993 4.21129C14.0103 4.56767 13.8899 4.87167 13.6382 5.12329L12.7025 6.06027ZM11.7505 7.03014L4.79054 14H2V11.2055L8.95993 4.23562L11.7505 7.03014Z" fill="white" fill-opacity="0.35"/>
+const pushDropDown = (elem, values) => {
+    values.map((value) => {
+        getElement(`.${elem}`).innerHTML += `
+        <div class="${elem + value}" onclick="selectOption()">
+            <h4>${value}</h4>
+            <span class="checkbox">
+            <svg xmlns="http://www.w3.org/2000/svg" class="${elem + value}check hidden" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <path d="M6.63636 12L3 8.19048L4.27273 6.85714L6.63636 9.33333L11.7273 4L13 5.33333L6.63636 12Z" fill="black"/>
             </svg>
-            ${type === 'textarea' ? 
-            `<textarea name="ems${id}" id="ems${id}" placeholder="${title}" rows="6"></textarea>` :
-            `<input type="text" name="ems${id}" id="ems${id}" placeholder="${title}"> `
-            }
+            </span>
         </div>
         `
     })
 }
-// pushEmsStep1(emsQuestions)
+pushSteps(stepsWithQuestions)
 getElement('.menu-ems').addEventListener('click', () => {
     getElement('#applicationSteps').classList.remove("hide")
     getElement('#applicationContents').classList.add("hide")
 })
-// EMS INPUT ACTIVE STATE
-// emsQuestions.map((question) => {
-//     const {id} = question;
-//     getElement(`#ems${id}`).addEventListener('focus', () => {
-//         getElement(`#${id}`).classList.add('inputactive')
-//     })
-//     getElement(`#ems${id}`).addEventListener('focusout', () => {
-//         getElement(`#${id}`).classList.remove('inputactive')
-//     })
-// })
+const activeStateOn = (id) => {
+        getElement(`#${id}`).classList.add('inputactive')
+}
+const activeStateOut = (id) => {
+    getElement(`#${id}`).classList.remove('inputactive')
+}
+
 // SWITCH TO NEXT AND PREVIOUS STEP
-const steps = [getElement('.step1'),getElement('.step2')]
 let stepCount = 0
 const nextStep = () => {
-    if(stepCount >= 0 && stepCount < 1){
+    if(stepCount >= 0 && stepCount < totalsteps ){
         stepCount ++
         getElement('.dashstep').classList.toggle('green')
         getElement('.stepone').classList.add('done')
@@ -338,13 +348,13 @@ const nextStep = () => {
         document.querySelector('.steptwostatus').parentElement.style.color = 'white'
         getElement('.steptwo').style.background = 'rgba(124, 62, 255, 0.8)';
         steps.map((step) => {
-            if(steps[stepCount] == step){
-                step.classList.remove('hide')
+            if(steps[stepCount] === step){
+                document.querySelector(step).classList.remove('hide')
             } else {
-                step.classList.add('hide')
+                document.querySelector(step).classList.add('hide')
             }
         })
-        if(stepCount === 1){
+        if(stepCount === totalsteps - 1){
             getElement('#submitBtn').classList.remove('hidden')
             getElement('#nextBtn').classList.add('hidden')
         }
@@ -362,13 +372,14 @@ const prevStep = () => {
         document.querySelector('.steponestatus').parentElement.style.color = 'white'
         steps.map((step) => {
             if(steps[stepCount] == step){
-                step.classList.remove('hide')
+                document.querySelector(step).classList.remove('hide')
             } else {
-                step.classList.add('hide')
+                document.querySelector(step).classList.add('hide')
             }
             getElement('#submitBtn').classList.add('hidden')
             getElement('#nextBtn').classList.remove('hidden')
         })
+       
     }
 }
 // pushDaysDropDown('ems');
@@ -383,6 +394,9 @@ let emsData = {
     preferredDepartment: [],
     trip: false,
     rework: false
+}
+const selectValue = () => {
+
 }
 const selectOption = (name, list, content) => {
     document.querySelector(`${name}check`).classList.toggle('hidden');
