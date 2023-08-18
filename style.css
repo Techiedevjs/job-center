@@ -385,7 +385,7 @@ input, textarea{
     background: rgba(255, 255, 255, 0.02);
     padding: var(--padmedium);
 }
-.inputbox:hover,  .textareabox:hover,  form section:hover{
+.inputbox:hover,  .textareabox:hover,  form section:hover, .dropdown:hover{
     border: 1px solid rgba(255, 255, 255, 0.50);
     background: rgba(255, 255, 255, 0.05);
 }
@@ -417,19 +417,18 @@ input, textarea{
     gap: var(--gap);
     padding: var(--padlittle) var(--padmedium);
 }
- form section p{
+ form section p, .dropdown p{
     color: rgba(255, 255, 255, 0.60);
-    font-feature-settings: 'dlig' on;
     font-weight: 400;
     letter-spacing: 0.8px;
 }
- form section .days{
+.days{
     font-size: calc(0.8 * var(--fontxsmall));
     border: rgba(255, 255, 255, 0.15) solid 1px;
     border-radius: calc(0.8 * var(--radius));
     padding: var(--padmedium);
 }
- form section .days svg{
+.days svg{
     height:calc(0.5 * var(--fontxsmall));
 }
  form section:hover .days{
@@ -471,11 +470,13 @@ input, textarea{
 .ems-steps{
     display: flex;
     flex-direction: column;
-    max-height: 35vh;
-    overflow-y: scroll;
+    height: 30vh;
     padding-top: var(--padmedium);
     padding-right: var(--padmedium);
     gap: var(--gap);
+}
+.ems-steps textarea{
+    flex: 1;
 }
 .ems-btns{
     margin:0 auto;
@@ -560,7 +561,28 @@ input, textarea{
 }
 .ems-steps{
     display: flex;
-
+}
+.dropdown{
+    border-radius: calc(0.8 * var(--radius));
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    background: rgba(255, 255, 255, 0.02);
+    display: flex;
+    justify-content: space-between;
+    gap: var(--gap);
+    width: 100%;
+    padding: var(--padlittle) var(--padmedium);
+}
+/* .dropdowntitle{
+    color: rgba(255, 255, 255, 0.60);
+    font-weight: 600;
+    letter-spacing: 0.8px;
+    font-size: calc(0.8 * var(--fontxsmall));
+    border: rgba(255, 255, 255, 0.15) solid 1px;
+    border-radius: calc(0.8 * var(--radius));
+    padding: var(--padmedium);
+} */
+.dropdown:hover .days{
+    background: rgba(255, 255, 255, 0.20);
 }
 .applications{
     display: flex;
@@ -696,7 +718,7 @@ input, textarea{
     flex-direction: column;
     position: absolute;
     align-items: initial !important;
-    top: -60px;
+    top: -60%;
     right: -120px;
     z-index: 20;
 }
