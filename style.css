@@ -531,7 +531,7 @@ input, textarea{
     color: white;
 }
 .ems-content .steps .step{
-    width: calc(1.2 * var(--fontxl));
+    width: calc(1.4 * var(--fontxl));
     aspect-ratio: 1/1;
     text-align: center;
     border-radius: 9999px;
@@ -543,19 +543,21 @@ input, textarea{
 .ems-content .steps .dashstep{
     display: block;
     height: 3px;
-    width: 10vw;
     flex: 1;
     background: rgba(205, 181, 255, 0.2);
     border-radius: 7px;
 }
+.steps span:last-of-type{
+    display: none !important;
+}
 .ems-content .steps .green{
     background: rgba(87, 255, 175, 0.35);
 }
-.ems-content .steps .stepone {
+.ems-content .steps .stepindicatoractive {
     background-color: rgba(124, 62, 255, 0.8);
 }
 .ems-content .steps .done{
-    background-color: rgba(87, 255, 175, 0.2);
+    background-color: rgba(87, 255, 175, 0.2) !important;
 }
 .ems-content .textareabox{
     flex: 1;
