@@ -145,15 +145,11 @@ const toggleDropDown = (name) => {
     getElement(name).classList.toggle('activedropdown');
     getElement(name + 'dropdown').classList.toggle('hidden');
     getElement(name + 'dropdown').classList.toggle('daysdropdown');
-    // if(name === '.emsworkschedule'){
-    //     closeDropDown('.emsdepartmentschedule')
-    // } else if(name === '.emsdepartmentschedule'){
-    //     closeDropDown('.emsworkschedule')
-    // } else if(name === '.policeworkschedule'){
-    //     closeDropDown('.policedepartmentschedule')
-    // } else if(name === '.policedepartmentschedule'){
-    //     closeDropDown('.policeworkschedule')
-    // }
+    if(name === '.policeworkschedule'){
+        closeDropDown('.policedepartmentschedule')
+    } else if(name === '.policedepartmentschedule'){
+        closeDropDown('.policeworkschedule')
+    }
 }
 let policeRequest = {
     name: '',
@@ -282,7 +278,7 @@ const pushStepQuestions = (stepData, elem) => {
         `
         dropdowncontents.map((value) => {
             document.querySelector(`.${dropdowntitle}dropdown`).innerHTML += `
-            <div class="${ value}" onclick="selectOption()">
+            <div class="${value}" onclick="selectValue('${value}')">
             <h4>${value}</h4>
             <span class="checkbox">
             <svg xmlns="http://www.w3.org/2000/svg" class="${value}check hidden" width="16" height="16" viewBox="0 0 16 16" fill="none">
@@ -305,20 +301,6 @@ const pushStepQuestions = (stepData, elem) => {
     </div>
     `
     }
-}
-const pushDropDown = (elem, values) => {
-    values.map((value) => {
-        getElement(`.${elem}`).innerHTML += `
-        <div class="${elem + value}" onclick="selectOption()">
-            <h4>${value}</h4>
-            <span class="checkbox">
-            <svg xmlns="http://www.w3.org/2000/svg" class="${elem + value}check hidden" width="16" height="16" viewBox="0 0 16 16" fill="none">
-                <path d="M6.63636 12L3 8.19048L4.27273 6.85714L6.63636 9.33333L11.7273 4L13 5.33333L6.63636 12Z" fill="black"/>
-            </svg>
-            </span>
-        </div>
-        `
-    })
 }
 pushSteps(stepsWithQuestions)
 getElement('.menu-ems').addEventListener('click', () => {
@@ -382,8 +364,6 @@ const prevStep = () => {
        
     }
 }
-// pushDaysDropDown('ems');
-// pushDepartmentsDropDown('ems');
 let emsData = {
     id: '',
     status: 'pending',
@@ -395,8 +375,8 @@ let emsData = {
     trip: false,
     rework: false
 }
-const selectValue = () => {
-
+const selectValue = (value) => {
+    document.querySelector(`.${value}check`).classList.toggle('hidden');
 }
 const selectOption = (name, list, content) => {
     document.querySelector(`${name}check`).classList.toggle('hidden');
@@ -411,18 +391,6 @@ const selectOption = (name, list, content) => {
             policeRequest.preferredDepartment = policeRequest.preferredDepartment.filter((i) => i !== content);
         } else {
             policeRequest.preferredDepartment.push(content)
-        }
-    } else if(list === 'emswork'){
-        if(emsData.preferredWorkSchedule.includes(content)){
-            emsData.preferredWorkSchedule = emsData.preferredWorkSchedule.filter((i) => i !== content);
-        } else {
-            emsData.preferredWorkSchedule.push(content)
-        }
-    } else if (list === 'emsdepartment'){
-        if(emsData.preferredDepartment.includes(content)){
-            emsData.preferredDepartment = emsData.preferredDepartment.filter((i) => i !== content);
-        } else {
-            emsData.preferredDepartment.push(content)
         }
     } else if(name === '.policetrip'){
         policeRequest.trip = !policeRequest.trip
@@ -446,21 +414,11 @@ const refreshEmsForm = () => {
         trip: false,
         rework: false
     }
-    getElement('#emsapplicationname').value = ''
-    getElement('#emsapplicationabout').value = ''
-    getElement('.emsreworkcheck').classList.add('hidden')
-    getElement('.emstripcheck').classList.add('hidden')
-    days.map((day) => {
-        getElement(`.emswork${day}check`).classList.add('hidden');
-    })
-    departments.map((department) => {
-        getElement(`.emsdepartment${department}check`).classList.add('hidden');
-    })
 }
 // SUBMIT APPLICATION
 const submitApplication = () => {
-    steps[0].classList.remove('hide');
-    steps[1].classList.add('hide');
+    // steps[0].classList.remove('hide');
+    // steps[1].classList.add('hide');
     getElement('.stepone').innerHTML = '1'
     getElement('.steponestatus').textContent = 'Unfilled'
     getElement('.dashstep').classList.toggle('green')
@@ -474,81 +432,62 @@ const submitApplication = () => {
     getElement('#applicationSteps').classList.add("hide")
     getElement('#applicationContents').classList.remove("hide")
     emsData.id = Math.round(Math.random() * 1000);
-    emsData.name = getElement('#emsapplicationname').value
-    emsData.about =  getElement('#emsapplicationabout').value
-    applicationsData.push(emsData)
-    uploadApplications(applicationsData);
+    getElement('.applicationReceived').classList.remove('hide')
+    setTimeout(() => {
+        getElement('.applicationReceived').classList.add('hide')
+    }, 4000);
     refreshEmsForm()
 }
-let applicationsData = [
-    {
-        name: "James Bond",
-        id: 150,
-        expiresIn: "6 days",
-        status: "pending",
-        role: "driver",
-        department: "delivery",
-        imageUrl: "images/character.png"
-    },
-    {
-        name: "Alicia Keyys",
-        id: 151,
-        expiresIn: "2 days",
-        status: "rejected",
-        role: "driver",
-        department: "delivery",
-        imageUrl: "images/character.png"
-    },
-    {
-        name: "Deathlie Keyys",
-        id: 152,
-        expiresIn: "2 days",
-        status: "approved",
-        role: "driver",
-        department: "delivery",
-        imageUrl: "images/character.png"
-    },
-]
-
-const uploadApplications = (data) => {
-    getElement('.applications').innerHTML = ''
-    data.map((app) => {
-        const {name, id, expiresIn, status, role, department, imageUrl} = app;
-        getElement('.applications').innerHTML += `
-        <div class="application">
-        <div class="image-box"><img src="${imageUrl}" alt=""></div>
-        <article>
-          <h3 class="semibold fm">${name}</h3>
-          <div class="details flexsmall">
-            <p>${role}</p><span class="dot"></span>
-            <p>${department}</p><span class="dot"></span>
-            <p>ID: ${id}</p>
-          </div>
-          <div class="status flexsmall">
-            <button class="semibold fs ${status}">Application ${status}</button>
-            ${ status === 'pending' ?
-            `<div class="edit">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                <path d="M19.0538 9.09041L14.868 4.94795L16.2469 3.56712C16.6244 3.18904 17.0883 3 17.6385 3C18.1887 3 18.6523 3.18904 19.0292 3.56712L20.408 4.94795C20.7856 5.32603 20.9826 5.78236 20.999 6.31693C21.0154 6.85151 20.8348 7.30751 20.4573 7.68493L19.0538 9.09041ZM17.6257 10.5452L7.18581 21H3V16.8082L13.4399 6.35342L17.6257 10.5452Z" fill="#CDB5FF" fill-opacity="0.5"/>
-              </svg>
-            </div>` : '' }
-          </div>
-        </article>
-        <div class="cancel" onclick="deleteApplication(${id})">
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-            <path d="M14.0932 15L10.0032 10.9062L5.91318 15L5 14.0874L9.09646 10L5 5.9126L5.91318 5L10.0032 9.09383L14.0932 5.00643L15 5.9126L10.91 10L15 14.0874L14.0932 15Z" fill="#FF6565" fill-opacity="0.6"/>
-            </svg>
-        </div>
-        <div class="due">in ${expiresIn}</div>
-      </div>
-        `
-    })
-}
-uploadApplications(applicationsData);
-const deleteApplication = (id) => {
-    applicationsData = applicationsData.filter((application) => application.id !== id);
-    uploadApplications(applicationsData);
-}
+// let applicationsData = [
+//     {
+//         name: "James Bond",
+//         id: 150,
+//         expiresIn: "6 days",
+//         status: "pending",
+//         role: "driver",
+//         department: "delivery",
+//         imageUrl: "images/character.png"
+//     }
+// ]
+// const uploadApplications = (data) => {
+//     getElement('.applications').innerHTML = ''
+//     data.map((app) => {
+//         const {name, id, expiresIn, status, role, department, imageUrl} = app;
+//         getElement('.applications').innerHTML += `
+//         <div class="application">
+//         <div class="image-box"><img src="${imageUrl}" alt=""></div>
+//         <article>
+//           <h3 class="semibold fm">${name}</h3>
+//           <div class="details flexsmall">
+//             <p>${role}</p><span class="dot"></span>
+//             <p>${department}</p><span class="dot"></span>
+//             <p>ID: ${id}</p>
+//           </div>
+//           <div class="status flexsmall">
+//             <button class="semibold fs ${status}">Application ${status}</button>
+//             ${ status === 'pending' ?
+//             `<div class="edit">
+//               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+//                 <path d="M19.0538 9.09041L14.868 4.94795L16.2469 3.56712C16.6244 3.18904 17.0883 3 17.6385 3C18.1887 3 18.6523 3.18904 19.0292 3.56712L20.408 4.94795C20.7856 5.32603 20.9826 5.78236 20.999 6.31693C21.0154 6.85151 20.8348 7.30751 20.4573 7.68493L19.0538 9.09041ZM17.6257 10.5452L7.18581 21H3V16.8082L13.4399 6.35342L17.6257 10.5452Z" fill="#CDB5FF" fill-opacity="0.5"/>
+//               </svg>
+//             </div>` : '' }
+//           </div>
+//         </article>
+//         <div class="cancel" onclick="deleteApplication(${id})">
+//           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+//             <path d="M14.0932 15L10.0032 10.9062L5.91318 15L5 14.0874L9.09646 10L5 5.9126L5.91318 5L10.0032 9.09383L14.0932 5.00643L15 5.9126L10.91 10L15 14.0874L14.0932 15Z" fill="#FF6565" fill-opacity="0.6"/>
+//             </svg>
+//         </div>
+//         <div class="due">in ${expiresIn}</div>
+//       </div>
+//         `
+//     })
+// }
+// uploadApplications(applicationsData);
+// const deleteApplication = (id) => {
+//     applicationsData = applicationsData.filter((application) => application.id !== id);
+//     uploadApplications(applicationsData);
+// }
 // ESCAPE KEY BACK
 document.addEventListener('keydown', evt => {
     if (evt.key === 'Escape') {
