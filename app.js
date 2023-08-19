@@ -241,6 +241,44 @@ const stepsWithQuestions = [
             id:"state"
         },
     ],
+    [
+        {
+            title: "Your place",
+            type: 'dropdown',
+            id:"placedropdown",
+            dropdowncontents: ['northplace', "westplace", "southplace", "eastplace"],
+            dropdowntitle: "place"
+        },
+        {
+            title: "chill first",
+            type: 'textarea',
+            id:"applcheck"
+        },
+        {
+            title: "State",
+            type: 'input',
+            id:"state"
+        },
+    ],
+    [
+        {
+            title: "Your region",
+            type: 'dropdown',
+            id:"testdropdown",
+            dropdowncontents: ['northtest', "westtest", "southtest", "easttest"],
+            dropdowntitle: "test"
+        },
+        {
+            title: "chill first",
+            type: 'textarea',
+            id:"applcheck"
+        },
+        {
+            title: "State",
+            type: 'input',
+            id:"state"
+        },
+    ],
 ]
 const totalsteps = stepsWithQuestions.length
 let steps = []
@@ -313,22 +351,31 @@ const activeStateOn = (id) => {
 const activeStateOut = (id) => {
     getElement(`#${id}`).classList.remove('inputactive')
 }
-
+const pushStepsIndicator = () => {
+    for (let index = 0; index < totalsteps; index++) {
+        document.querySelector('.steps').innerHTML += `
+        <p class="fm step bold stepindicator${index+1}">${index + 1}</p>
+        <span class="dashstep dash${index+1}"></span>
+        `
+    }
+}
+pushStepsIndicator()
 // SWITCH TO NEXT AND PREVIOUS STEP
 let stepCount = 0
+getElement('.stepindicator1').style.background = 'rgba(124, 62, 255, 0.8)'
 const nextStep = () => {
     if(stepCount >= 0 && stepCount < totalsteps ){
         stepCount ++
-        getElement('.dashstep').classList.toggle('green')
-        getElement('.stepone').classList.add('done')
-        getElement('.stepone').innerHTML = `
+        getElement(`.dash${stepCount}`).classList.toggle('green')
+        getElement(`.stepindicator${stepCount}`).classList.add('done')
+        getElement(`.stepindicator${stepCount}`).innerHTML = `
         <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
         <path d="M13.8182 22L8 16.2857L10.0364 14.2857L13.8182 18L21.9636 10L24 12L13.8182 22Z" fill="#57FFAF"/>
         </svg>`
-        getElement('.steponestatus').textContent = 'Completed'
-        document.querySelector('.steponestatus').parentElement.style.color = 'rgba(255, 255, 255, 0.35)'
-        document.querySelector('.steptwostatus').parentElement.style.color = 'white'
-        getElement('.steptwo').style.background = 'rgba(124, 62, 255, 0.8)';
+        // getElement('.steponestatus').textContent = 'Completed'
+        // document.querySelector('.steponestatus').parentElement.style.color = 'rgba(255, 255, 255, 0.35)'
+        // document.querySelector('.steptwostatus').parentElement.style.color = 'white'
+        getElement(`.stepindicator${stepCount + 1}`).style.background = 'rgba(124, 62, 255, 0.8)';
         steps.map((step) => {
             if(steps[stepCount] === step){
                 document.querySelector(step).classList.remove('hide')
@@ -345,13 +392,13 @@ const nextStep = () => {
 const prevStep = () => {
     if(stepCount > 0){
         stepCount --
-        getElement('.dashstep').classList.toggle('green')
-        getElement('.stepone').classList.remove('done')
-        getElement('.stepone').innerHTML = '1'
-        getElement('.steponestatus').textContent = 'Unfilled'
-        getElement('.steptwo').style.background = 'rgba(124, 62, 255, 0.2)';
-        document.querySelector('.steptwostatus').parentElement.style.color = 'rgba(255, 255, 255, 0.35)'
-        document.querySelector('.steponestatus').parentElement.style.color = 'white'
+        getElement(`.dash${stepCount+1}`).classList.toggle('green')
+        getElement(`.stepindicator${stepCount + 1}`).classList.remove('done')
+        getElement(`.stepindicator${stepCount + 1}`).innerHTML = stepCount + 1
+        // getElement('.steponestatus').textContent = 'Unfilled'
+        getElement(`.stepindicator${stepCount + 2}`).style.background = 'rgba(124, 62, 255, 0.2)';
+        // document.querySelector('.steptwostatus').parentElement.style.color = 'rgba(255, 255, 255, 0.35)'
+        // document.querySelector('.steponestatus').parentElement.style.color = 'white'
         steps.map((step) => {
             if(steps[stepCount] == step){
                 document.querySelector(step).classList.remove('hide')
@@ -361,7 +408,6 @@ const prevStep = () => {
             getElement('#submitBtn').classList.add('hidden')
             getElement('#nextBtn').classList.remove('hidden')
         })
-       
     }
 }
 let emsData = {
@@ -396,10 +442,6 @@ const selectOption = (name, list, content) => {
         policeRequest.trip = !policeRequest.trip
     } else if(name === '.policerework'){
         policeRequest.rework = !policeRequest.rework
-    } else if(name === '.emstrip'){
-        emsData.trip = !emsData.trip
-    } else if(name === '.emsrework'){
-        emsData.rework = !emsData.rework
     }
 }
 const refreshEmsForm = () => {
@@ -417,17 +459,13 @@ const refreshEmsForm = () => {
 }
 // SUBMIT APPLICATION
 const submitApplication = () => {
-    // steps[0].classList.remove('hide');
-    // steps[1].classList.add('hide');
-    getElement('.stepone').innerHTML = '1'
-    getElement('.steponestatus').textContent = 'Unfilled'
-    getElement('.dashstep').classList.toggle('green')
-    getElement('.stepone').classList.remove('done')
+    document.querySelector('.steps').innerHTML = ""
+    pushStepsIndicator()
+    // getElement('.steponestatus').textContent = 'Unfilled'
     getElement('#submitBtn').classList.add('hidden')
     getElement('#nextBtn').classList.remove('hidden')
-    getElement('.steptwo').style.background = 'rgba(124, 62, 255, 0.2)';
-    document.querySelector('.steptwostatus').parentElement.style.color = 'rgba(255, 255, 255, 0.35)'
-    document.querySelector('.steponestatus').parentElement.style.color = 'white'
+    // document.querySelector('.steptwostatus').parentElement.style.color = 'rgba(255, 255, 255, 0.35)'
+    // document.querySelector('.steponestatus').parentElement.style.color = 'white'
     stepCount = 0
     getElement('#applicationSteps').classList.add("hide")
     getElement('#applicationContents').classList.remove("hide")
@@ -438,56 +476,6 @@ const submitApplication = () => {
     }, 4000);
     refreshEmsForm()
 }
-// let applicationsData = [
-//     {
-//         name: "James Bond",
-//         id: 150,
-//         expiresIn: "6 days",
-//         status: "pending",
-//         role: "driver",
-//         department: "delivery",
-//         imageUrl: "images/character.png"
-//     }
-// ]
-// const uploadApplications = (data) => {
-//     getElement('.applications').innerHTML = ''
-//     data.map((app) => {
-//         const {name, id, expiresIn, status, role, department, imageUrl} = app;
-//         getElement('.applications').innerHTML += `
-//         <div class="application">
-//         <div class="image-box"><img src="${imageUrl}" alt=""></div>
-//         <article>
-//           <h3 class="semibold fm">${name}</h3>
-//           <div class="details flexsmall">
-//             <p>${role}</p><span class="dot"></span>
-//             <p>${department}</p><span class="dot"></span>
-//             <p>ID: ${id}</p>
-//           </div>
-//           <div class="status flexsmall">
-//             <button class="semibold fs ${status}">Application ${status}</button>
-//             ${ status === 'pending' ?
-//             `<div class="edit">
-//               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-//                 <path d="M19.0538 9.09041L14.868 4.94795L16.2469 3.56712C16.6244 3.18904 17.0883 3 17.6385 3C18.1887 3 18.6523 3.18904 19.0292 3.56712L20.408 4.94795C20.7856 5.32603 20.9826 5.78236 20.999 6.31693C21.0154 6.85151 20.8348 7.30751 20.4573 7.68493L19.0538 9.09041ZM17.6257 10.5452L7.18581 21H3V16.8082L13.4399 6.35342L17.6257 10.5452Z" fill="#CDB5FF" fill-opacity="0.5"/>
-//               </svg>
-//             </div>` : '' }
-//           </div>
-//         </article>
-//         <div class="cancel" onclick="deleteApplication(${id})">
-//           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-//             <path d="M14.0932 15L10.0032 10.9062L5.91318 15L5 14.0874L9.09646 10L5 5.9126L5.91318 5L10.0032 9.09383L14.0932 5.00643L15 5.9126L10.91 10L15 14.0874L14.0932 15Z" fill="#FF6565" fill-opacity="0.6"/>
-//             </svg>
-//         </div>
-//         <div class="due">in ${expiresIn}</div>
-//       </div>
-//         `
-//     })
-// }
-// uploadApplications(applicationsData);
-// const deleteApplication = (id) => {
-//     applicationsData = applicationsData.filter((application) => application.id !== id);
-//     uploadApplications(applicationsData);
-// }
 // ESCAPE KEY BACK
 document.addEventListener('keydown', evt => {
     if (evt.key === 'Escape') {
