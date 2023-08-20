@@ -280,6 +280,7 @@ const stepsWithQuestions = [
         },
     ],
 ]
+let userInputs = []
 const totalsteps = stepsWithQuestions.length
 let steps = []
 let classCount = 1
@@ -316,7 +317,7 @@ const pushStepQuestions = (stepData, elem) => {
         `
         dropdowncontents.map((value) => {
             document.querySelector(`.${dropdowntitle}dropdown`).innerHTML += `
-            <div class="${value}" onclick="selectValue('${value}')">
+            <div class="${value}" onclick="selectValue('${value}', '${title}')">
             <h4>${value}</h4>
             <span class="checkbox">
             <svg xmlns="http://www.w3.org/2000/svg" class="${value}check hidden" width="16" height="16" viewBox="0 0 16 16" fill="none">
@@ -326,6 +327,7 @@ const pushStepQuestions = (stepData, elem) => {
         </div>
             `
         })
+        userInputs.push({question: title, userpicks: []})
     } else {
         getElement(elem).innerHTML += `
         <div class="${type}box flexlittle" id="${id}">
@@ -333,14 +335,26 @@ const pushStepQuestions = (stepData, elem) => {
             <path d="M12.7025 6.06027L9.912 3.29863L10.8312 2.37808C11.0829 2.12603 11.3922 2 11.759 2C12.1258 2 12.4349 2.12603 12.6861 2.37808L13.6054 3.29863C13.8571 3.55068 13.9884 3.8549 13.9993 4.21129C14.0103 4.56767 13.8899 4.87167 13.6382 5.12329L12.7025 6.06027ZM11.7505 7.03014L4.79054 14H2V11.2055L8.95993 4.23562L11.7505 7.03014Z" fill="white" fill-opacity="0.35"/>
         </svg>
         ${type === 'textarea' ? 
-        `<textarea name="ems${id}" id="ems${id}" placeholder="${title}" onfocus="activeStateOn('${id}')" onfocusout="activeStateOut('${id}')"></textarea> ` :
-        `<input type="text" name="ems${id}" id="ems${id}" placeholder="${title}" onfocus="activeStateOn('${id}')" onfocusout="activeStateOut('${id}')"> `
+        `<textarea name="ems${id}" id="ems${id}" placeholder="${title}" onfocus="activeStateOn('${id}')" onfocusout="activeStateOut('${id}')" oninput="saveInput('${title}', 'ems${id}')"></textarea> ` :
+        `<input type="text" name="ems${id}" id="ems${id}" placeholder="${title}" onfocus="activeStateOn('${id}')" onfocusout="activeStateOut('${id}')" oninput="saveInput('${title}', 'ems${id}')"> `
         }
     </div>
     `
+    userInputs.push({question: title, userinput: ""})
     }
 }
 pushSteps(stepsWithQuestions)
+const saveInput = (title, id) => {
+    let value = getElement(`#${id}`).value
+    userInputs = userInputs.map((i) => {
+        const { question } = i
+        if(question === title){
+            return {...i, userinput: value}
+        } else {
+            return {...i}
+        }
+    })
+}
 getElement('.menu-ems').addEventListener('click', () => {
     getElement('#applicationSteps').classList.remove("hide")
     getElement('#applicationContents').classList.add("hide")
@@ -410,19 +424,17 @@ const prevStep = () => {
         })
     }
 }
-let emsData = {
-    id: '',
-    status: 'pending',
-    expiresIn: '7 days',
-    name: '',
-    about: '',
-    preferredWorkSchedule: [],
-    preferredDepartment: [],
-    trip: false,
-    rework: false
-}
-const selectValue = (value) => {
+const selectValue = (value, title) => {
     document.querySelector(`.${value}check`).classList.toggle('hidden');
+    userInputs = userInputs.map((i) => {
+        const { question } = i
+        if(question === title){
+            i.userpicks.push(value)
+            return {...i}
+        } else {
+            return {...i}
+        }
+    })
 }
 const selectOption = (name, list, content) => {
     document.querySelector(`${name}check`).classList.toggle('hidden');
@@ -444,23 +456,12 @@ const selectOption = (name, list, content) => {
         policeRequest.rework = !policeRequest.rework
     }
 }
-const refreshEmsForm = () => {
-    emsData = {
-        id: '',
-        status: 'pending',
-        expiresIn: '7 days',
-        name: '',
-        about: '',
-        preferredWorkSchedule: [],
-        preferredDepartment: [],
-        trip: false,
-        rework: false
-    }
-}
 // SUBMIT APPLICATION
 const submitApplication = () => {
+    console.log(userInputs)
     document.querySelector('.steps').innerHTML = ""
     pushStepsIndicator()
+    getElement('.stepindicator1').style.background = 'rgba(124, 62, 255, 0.8)'
     // getElement('.steponestatus').textContent = 'Unfilled'
     getElement('#submitBtn').classList.add('hidden')
     getElement('#nextBtn').classList.remove('hidden')
@@ -469,12 +470,10 @@ const submitApplication = () => {
     stepCount = 0
     getElement('#applicationSteps').classList.add("hide")
     getElement('#applicationContents').classList.remove("hide")
-    emsData.id = Math.round(Math.random() * 1000);
     getElement('.applicationReceived').classList.remove('hide')
     setTimeout(() => {
         getElement('.applicationReceived').classList.add('hide')
     }, 4000);
-    refreshEmsForm()
 }
 // ESCAPE KEY BACK
 document.addEventListener('keydown', evt => {
