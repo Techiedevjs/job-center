@@ -438,7 +438,7 @@ input, textarea{
  .checkboxes{
     margin-bottom: var(--padlarge);
 }
- .checkboxes span, .checkbox{
+.checkbox{
     display: flex;
     height: var(--fontmedium);
     aspect-ratio: 1/1;
@@ -447,14 +447,27 @@ input, textarea{
     justify-content: center;
     align-items: center;
 }
-.checkboxes div:hover .checkbox svg path{
+.checkboxes:hover .checkbox svg path{
     fill: rgba(124, 62, 255, 1);
 }
-.checkboxes div:hover .checkbox, .daysdropdown div:hover .checkbox{
+.checkboxes:hover .checkbox{
     border: rgba(124, 62, 255, 0.8) 2px solid;
 }
 .checkbox:hover{
     border: rgba(124, 62, 255, 0.8) 2px solid;
+}
+.policequestions{
+    height: 100%;
+    display: flex;
+    justify-content: space-around;
+    flex-direction: column;
+    gap: var(--gap);
+}
+#policeApplicationContents{
+    height: 100%;
+}
+#policeApplicationContents .relative{
+    height: 100%;
 }
 .ems-content{
     display: flex;
@@ -462,13 +475,7 @@ input, textarea{
     height: 100%;
     flex-direction: column;
 }
-.ems-content .form{
-    display: flex;
-    flex-direction: column;
-    gap:var(--gap);
-    width: 100%;
-}
-#ems-steps-container{
+#ems-steps-container, #police-steps-container{
     flex: 1;
 }
 .ems-steps{
@@ -517,23 +524,13 @@ input, textarea{
     justify-content: center;
     align-items: center;
 }
-.ems-content .steps{
+.ems-content .steps, .policesteps{
     display: flex;
     justify-content: center;
     width: 70%;
-    margin: 0 auto;
-}
-.step-progress{
-    display: flex;
-    justify-content: space-between;
     margin: var(--padlittle) auto;
-    width: 80%;
-    color: rgba(255, 255, 255, 0.35);
 }
-.step-progress .active{
-    color: white;
-}
-.ems-content .steps .step{
+.ems-content .steps .step, .policesteps .step{
     width: calc(1.4 * var(--fontxl));
     aspect-ratio: 1/1;
     text-align: center;
@@ -543,23 +540,23 @@ input, textarea{
     display: flex;
     background: rgba(124, 62, 255, 0.2);
 }
-.ems-content .steps .dashstep{
+.ems-content .steps .dashstep, .policesteps .dashstep{
     display: block;
     height: 3px;
     flex: 1;
     background: rgba(205, 181, 255, 0.2);
     border-radius: 7px;
 }
-.steps span:last-of-type{
+.steps span:last-of-type, .policesteps span:last-of-type{
     display: none !important;
 }
-.ems-content .steps .green{
+.green{
     background: rgba(87, 255, 175, 0.35);
 }
-.ems-content .steps .stepindicatoractive {
+.stepindicatoractive {
     background-color: rgba(124, 62, 255, 0.8);
 }
-.ems-content .steps .done{
+.done{
     background-color: rgba(87, 255, 175, 0.2) !important;
 }
 .ems-content .textareabox{
@@ -611,12 +608,19 @@ input, textarea{
 .applicationReceived p{
     color: rgba(255, 255, 255, 0.65);
 }
-.applications{
+.applicationPending{
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     font-size: var(--fontlarge);
+}
+.applications, .policeapplications{
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap);
+    padding-right: var(--padmedium);
+    margin-top: var(--padmedium);
 }
 .application{
     border-radius: var(--radius);
