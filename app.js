@@ -143,7 +143,12 @@ const policeQuestions = [
             title: "ready for work",
             type: "checkbox",
             id: "readycheck"
-        }
+        },
+        // {
+        //     title: "ready for deployment",
+        //     type: "checkbox",
+        //     id: "deploymentcheck"
+        // }
     ],
 ]
 const totalPoliceSteps = policeQuestions.length
@@ -408,6 +413,10 @@ const saveInput = (title, id, page) => {
 getElement('.menu-ems').addEventListener('click', () => {
     getElement('#applicationSteps').classList.remove("hide")
     getElement('#applicationContents').classList.add("hide")
+})
+getElement('.menu-police').addEventListener('click', () => {
+    getElement('#policeRequestSteps').classList.remove("hide")
+    getElement('#policeApplicationContents').classList.add("hide")
 })
 const activeStateOn = (id) => {
         getElement(`#${id}`).classList.add('inputactive')
