@@ -91,51 +91,62 @@ const uploadJobs = (data) => {
 uploadJobs(jobs);
 
 // POLICE
-// INPUT ACTIVE STATE
-getElement('#policeapplicationname').addEventListener('focus', () => {
-    getElement('#inputbox').classList.add('inputactive')
-})
-getElement('#policeapplicationname').addEventListener('focusout', () => {
-    getElement('#inputbox').classList.remove('inputactive')
-})
-getElement('#policeapplicationabout').addEventListener('focus', () => {
-    getElement('#textareabox').classList.add('inputactive')
-})
-getElement('#policeapplicationabout').addEventListener('focusout', () => {
-    getElement('#textareabox').classList.remove('inputactive')
-})
-const days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
-const departments = ['delivery', 'crime', 'civil', 'homicide', 'legal', 'swat']
-const pushDaysDropDown = (name) => {
-    days.map((day) => {
-        getElement(`.${name}workscheduledropdown`).innerHTML += `
-        <div class="${name}work${day}" onclick="selectOption('.${name}work${day}','${name}work', '${day}')">
-            <h4>${day}</h4>
-            <span class="checkbox">
-            <svg xmlns="http://www.w3.org/2000/svg" class="${name}work${day}check hidden" width="16" height="16" viewBox="0 0 16 16" fill="none">
-                <path d="M6.63636 12L3 8.19048L4.27273 6.85714L6.63636 9.33333L11.7273 4L13 5.33333L6.63636 12Z" fill="black"/>
-            </svg>
-            </span>
-        </div>
-        `
-    })
-}
-pushDaysDropDown('police');
-const pushDepartmentsDropDown = (name) => {
-    departments.map((department) => {
-        getElement(`.${name}departmentscheduledropdown`).innerHTML += `
-        <div class="${name}department${department}" onclick="selectOption('.${name}department${department}','${name}department', '${department}')">
-            <h4>${department}</h4>
-            <span class="checkbox">
-            <svg xmlns="http://www.w3.org/2000/svg" class="${name}department${department}check hidden" width="16" height="16" viewBox="0 0 16 16" fill="none">
-                <path d="M6.63636 12L3 8.19048L4.27273 6.85714L6.63636 9.33333L11.7273 4L13 5.33333L6.63636 12Z" fill="black"/>
-            </svg>
-            </span>
-        </div>
-        `
-    })
-}
-pushDepartmentsDropDown('police')
+const policeQuestions = [
+    [
+        {
+            title: "Your Name1",
+            type: 'input',
+            id:"policename"
+        },
+        {
+            title: "Briefly About You",
+            type: 'textarea',
+            id:"policeabout"
+        },
+        {
+            title: "Country",
+            type: 'input',
+            id:"policecountry"
+        },
+    ],
+    [
+        {
+            title: "Input and Textarea working now2",
+            type: 'input',
+            id:"testingpolice"
+        },
+        {
+            title: "Everybody needs to chilll",
+            type: 'textarea',
+            id:"policedonshow"
+        },
+        {
+            title: "Marital status",
+            type: 'dropdown',
+            id:"marital",
+            dropdowncontents: ['married', 'single', 'divorced'],
+            dropdowntitle: "marital status"
+        },
+    ],
+    [
+        {
+            title: "chill first",
+            type: 'textarea',
+            id:"applcheckii"
+        },
+        {
+            title: "State",
+            type: 'input',
+            id:"statekinda"
+        },
+        {
+            title: "ready for work",
+            type: "checkbox",
+            id: "readycheck"
+        }
+    ],
+]
+const totalPoliceSteps = policeQuestions.length
 const closeDropDown = (name) => {
     getElement(name).classList.remove('activedropdown');
     getElement(name + 'dropdown').classList.add('hidden');
@@ -185,7 +196,7 @@ const refreshPoliceForm = () => {
     })
 }
 // EMS 
-const stepsWithQuestions = [
+const emsQuestions = [
     [
         {
             title: "Your Name1",
@@ -217,7 +228,7 @@ const stepsWithQuestions = [
         {
             title: "Gender",
             type: 'dropdown',
-            id:"genderdropdown",
+            id:"gender",
             dropdowncontents: ['male', 'female'],
             dropdowntitle: "gender"
         },
@@ -226,7 +237,7 @@ const stepsWithQuestions = [
         {
             title: "Your region",
             type: 'dropdown',
-            id:"regiondropdown",
+            id:"region",
             dropdowncontents: ['north', "west", "south", "east"],
             dropdowntitle: "region"
         },
@@ -245,7 +256,7 @@ const stepsWithQuestions = [
         {
             title: "Your place",
             type: 'dropdown',
-            id:"placedropdown",
+            id:"place",
             dropdowncontents: ['northplace', "westplace", "southplace", "eastplace"],
             dropdowntitle: "place"
         },
@@ -264,7 +275,7 @@ const stepsWithQuestions = [
         {
             title: "Your region",
             type: 'dropdown',
-            id:"testdropdown",
+            id:"test",
             dropdowncontents: ['northtest', "westtest", "southtest", "easttest"],
             dropdowntitle: "test"
         },
@@ -280,21 +291,22 @@ const stepsWithQuestions = [
         },
     ],
 ]
-let userInputs = []
-const totalsteps = stepsWithQuestions.length
+let emsinputs = []
+let policeinputs = []
+const totalsteps = emsQuestions.length
 let steps = []
 let classCount = 1
-const pushSteps = (data) => {
+const pushEmsSteps = (data) => {
     data.map((step) => {
         document.querySelector('#ems-steps-container').innerHTML += `
         <div class='step${classCount} ems-steps ${classCount === 1 ? '' : 'hide'}'></div>
         `
         steps.push(`.step${classCount}`)
-        step.map((item) => pushStepQuestions(item, `.step${classCount}`))
+        step.map((item) => pushStepQuestions(item, `.step${classCount}`, 'ems'))
         classCount ++
     })
 }
-const pushStepQuestions = (stepData, elem) => {
+const pushStepQuestions = (stepData, elem, page) => {
     const {title, type, id, dropdowncontents, dropdowntitle} = stepData;
     if (type === 'dropdown'){
         getElement(elem).innerHTML += `
@@ -305,19 +317,19 @@ const pushStepQuestions = (stepData, elem) => {
             </svg>
             <p class="fs">${title}</p>
             </div>
-            <div class="flexlittle pointer semibold days" onclick="toggleDropDown('.${dropdowntitle}')">
+            <div class="flexlittle pointer semibold days" onclick="toggleDropDown('.${id}')">
             <p class="upper">${dropdowntitle}</p>
             <svg xmlns="http://www.w3.org/2000/svg" width="12" height="7" viewBox="0 0 12 7" fill="none">
                 <path d="M5.46967 6.53033C5.76256 6.82322 6.23744 6.82322 6.53033 6.53033L11.3033 1.75736C11.5962 1.46447 11.5962 0.989593 11.3033 0.6967C11.0104 0.403806 10.5355 0.403806 10.2426 0.6967L6 4.93934L1.75736 0.696699C1.46447 0.403805 0.989593 0.403805 0.6967 0.696699C0.403806 0.989592 0.403806 1.46447 0.696699 1.75736L5.46967 6.53033ZM5.25 5L5.25 6L6.75 6L6.75 5L5.25 5Z" fill="white" fill-opacity="0.65"/>
             </svg>
             </div>
-            <div class="${dropdowntitle}dropdown hidden">
+            <div class="${id}dropdown hidden">
             </div>
         </section>
         `
         dropdowncontents.map((value) => {
-            document.querySelector(`.${dropdowntitle}dropdown`).innerHTML += `
-            <div class="${value}" onclick="selectValue('${value}', '${title}')">
+            document.querySelector(`.${id}dropdown`).innerHTML += `
+            <div class="${value}" onclick="selectValue('${value}', '${title}', '${page}')">
             <h4>${value}</h4>
             <span class="checkbox">
             <svg xmlns="http://www.w3.org/2000/svg" class="${value}check hidden" width="16" height="16" viewBox="0 0 16 16" fill="none">
@@ -327,33 +339,71 @@ const pushStepQuestions = (stepData, elem) => {
         </div>
             `
         })
-        userInputs.push({question: title, userpicks: []})
-    } else {
+        page === 'ems' ? emsinputs.push({question: title, userpicks: []}) : policeinputs.push({question: title, userpicks: []})
+    } else if(type === 'checkbox'){
+        getElement(elem).innerHTML += `
+        <div class="flexlittle fxs pointer checkboxes" id="${id}" onclick="selectOption('${title}','${id}', '${page}')">
+            <span class="checkbox policetrip">
+            <svg xmlns="http://www.w3.org/2000/svg" class="${id}check hidden" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <path d="M6.63636 12L3 8.19048L4.27273 6.85714L6.63636 9.33333L11.7273 4L13 5.33333L6.63636 12Z" fill="black"/>
+            </svg>
+            </span>
+            <p>${title}</p>
+        </div>
+        `
+        page === 'ems' ? emsinputs.push({question: title, userpick: false}) : policeinputs.push({question: title, userpick: false})
+    } 
+    else {
         getElement(elem).innerHTML += `
         <div class="${type}box flexlittle" id="${id}">
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none" >
             <path d="M12.7025 6.06027L9.912 3.29863L10.8312 2.37808C11.0829 2.12603 11.3922 2 11.759 2C12.1258 2 12.4349 2.12603 12.6861 2.37808L13.6054 3.29863C13.8571 3.55068 13.9884 3.8549 13.9993 4.21129C14.0103 4.56767 13.8899 4.87167 13.6382 5.12329L12.7025 6.06027ZM11.7505 7.03014L4.79054 14H2V11.2055L8.95993 4.23562L11.7505 7.03014Z" fill="white" fill-opacity="0.35"/>
         </svg>
         ${type === 'textarea' ? 
-        `<textarea name="ems${id}" id="ems${id}" placeholder="${title}" onfocus="activeStateOn('${id}')" onfocusout="activeStateOut('${id}')" oninput="saveInput('${title}', 'ems${id}')"></textarea> ` :
-        `<input type="text" name="ems${id}" id="ems${id}" placeholder="${title}" onfocus="activeStateOn('${id}')" onfocusout="activeStateOut('${id}')" oninput="saveInput('${title}', 'ems${id}')"> `
+        `<textarea name="ems${id}" id="ems${id}" placeholder="${title}" onfocus="activeStateOn('${id}')" onfocusout="activeStateOut('${id}')" oninput="saveInput('${title}', 'ems${id}', '${page}')"></textarea> ` :
+        `<input type="text" name="ems${id}" id="ems${id}" placeholder="${title}" onfocus="activeStateOn('${id}')" onfocusout="activeStateOut('${id}')" oninput="saveInput('${title}', 'ems${id}', '${page}')"> `
         }
     </div>
     `
-    userInputs.push({question: title, userinput: ""})
+    page === 'ems' ? emsinputs.push({question: title, userinput: ""}) : policeinputs.push({question: title, userinput: ""})
     }
 }
-pushSteps(stepsWithQuestions)
-const saveInput = (title, id) => {
-    let value = getElement(`#${id}`).value
-    userInputs = userInputs.map((i) => {
-        const { question } = i
-        if(question === title){
-            return {...i, userinput: value}
-        } else {
-            return {...i}
-        }
+pushEmsSteps(emsQuestions)
+let count = 1
+let policeSteps = []
+const pushPoliceSteps = (data) => {
+    data.map((step) => {
+        document.querySelector('#police-steps-container').innerHTML += `
+        <div class='policestep${count} ems-steps ${count === 1 ? '' : 'hide'}'></div>
+        `
+        policeSteps.push(`.policestep${count}`)
+        step.map((item) => pushStepQuestions(item, `.policestep${count}`, 'police'))
+        count ++
     })
+}
+pushPoliceSteps(policeQuestions);
+const saveInput = (title, id, page) => {
+    let value = getElement(`#${id}`).value
+    if(page === 'ems'){
+        emsinputs = emsinputs.map((i) => {
+            const { question } = i
+            if(question === title){
+                return {...i, userinput: value}
+            } else {
+                return {...i}
+            }
+        })
+    }
+    else if(page === 'police'){
+        policeinputs = policeinputs.map((i) => {
+            const { question } = i
+            if(question === title){
+                return {...i, userinput: value}
+            } else {
+                return {...i}
+            }
+        })
+    }
 }
 getElement('.menu-ems').addEventListener('click', () => {
     getElement('#applicationSteps').classList.remove("hide")
@@ -365,7 +415,7 @@ const activeStateOn = (id) => {
 const activeStateOut = (id) => {
     getElement(`#${id}`).classList.remove('inputactive')
 }
-const pushStepsIndicator = () => {
+const pushEmsStepsIndicator = () => {
     for (let index = 0; index < totalsteps; index++) {
         document.querySelector('.steps').innerHTML += `
         <p class="fm step bold stepindicator${index+1}">${index + 1}</p>
@@ -373,7 +423,7 @@ const pushStepsIndicator = () => {
         `
     }
 }
-pushStepsIndicator()
+pushEmsStepsIndicator()
 // SWITCH TO NEXT AND PREVIOUS STEP
 let stepCount = 0
 getElement('.stepindicator1').style.background = 'rgba(124, 62, 255, 0.8)'
@@ -386,9 +436,6 @@ const nextStep = () => {
         <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
         <path d="M13.8182 22L8 16.2857L10.0364 14.2857L13.8182 18L21.9636 10L24 12L13.8182 22Z" fill="#57FFAF"/>
         </svg>`
-        // getElement('.steponestatus').textContent = 'Completed'
-        // document.querySelector('.steponestatus').parentElement.style.color = 'rgba(255, 255, 255, 0.35)'
-        // document.querySelector('.steptwostatus').parentElement.style.color = 'white'
         getElement(`.stepindicator${stepCount + 1}`).style.background = 'rgba(124, 62, 255, 0.8)';
         steps.map((step) => {
             if(steps[stepCount] === step){
@@ -409,10 +456,7 @@ const prevStep = () => {
         getElement(`.dash${stepCount+1}`).classList.toggle('green')
         getElement(`.stepindicator${stepCount + 1}`).classList.remove('done')
         getElement(`.stepindicator${stepCount + 1}`).innerHTML = stepCount + 1
-        // getElement('.steponestatus').textContent = 'Unfilled'
         getElement(`.stepindicator${stepCount + 2}`).style.background = 'rgba(124, 62, 255, 0.2)';
-        // document.querySelector('.steptwostatus').parentElement.style.color = 'rgba(255, 255, 255, 0.35)'
-        // document.querySelector('.steponestatus').parentElement.style.color = 'white'
         steps.map((step) => {
             if(steps[stepCount] == step){
                 document.querySelector(step).classList.remove('hide')
@@ -424,49 +468,60 @@ const prevStep = () => {
         })
     }
 }
-const selectValue = (value, title) => {
+const selectValue = (value, title, page) => {
     document.querySelector(`.${value}check`).classList.toggle('hidden');
-    userInputs = userInputs.map((i) => {
-        const { question } = i
-        if(question === title){
-            i.userpicks.push(value)
-            return {...i}
-        } else {
-            return {...i}
-        }
-    })
+    if(page === 'ems'){
+        emsinputs = emsinputs.map((i) => {
+            const { question } = i
+            if(question === title){
+                i.userpicks.push(value)
+                return {...i}
+            } else {
+                return {...i}
+            }
+        })
+    } else if(page === 'police'){
+        policeinputs = policeinputs.map((i) => {
+            const { question } = i
+            if(question === title){
+                i.userpicks.push(value)
+                return {...i}
+            } else {
+                return {...i}
+            }
+        })
+    }
 }
-const selectOption = (name, list, content) => {
-    document.querySelector(`${name}check`).classList.toggle('hidden');
-    if(list === 'policework'){
-        if(policeRequest.preferredWorkSchedule.includes(content)){
-            policeRequest.preferredWorkSchedule = policeRequest.preferredWorkSchedule.filter((i) => i !== content);
-        } else {
-            policeRequest.preferredWorkSchedule.push(content)
-        }
-    } else if (list === 'policedepartment'){
-        if(policeRequest.preferredDepartment.includes(content)){
-            policeRequest.preferredDepartment = policeRequest.preferredDepartment.filter((i) => i !== content);
-        } else {
-            policeRequest.preferredDepartment.push(content)
-        }
-    } else if(name === '.policetrip'){
-        policeRequest.trip = !policeRequest.trip
-    } else if(name === '.policerework'){
-        policeRequest.rework = !policeRequest.rework
+const selectOption = (title, elem, page) => {
+    document.querySelector(`.${elem}check`).classList.toggle('hidden');
+    if(page === 'ems'){
+        emsinputs = emsinputs.map((i) => {
+            if(i.question === title){
+                i.userpick = !i.userpick
+                return {...i}
+            } else {
+                return {...i}
+            }
+        })
+    } else if(page === 'police'){
+        policeinputs = policeinputs.map((i) => {
+            if(i.question === title){
+                i.userpick = !i.userpick
+                return {...i}
+            } else {
+                return {...i}
+            }
+        })
     }
 }
 // SUBMIT APPLICATION
 const submitApplication = () => {
-    console.log(userInputs)
+    console.log(emsinputs)
     document.querySelector('.steps').innerHTML = ""
-    pushStepsIndicator()
+    pushEmsStepsIndicator()
     getElement('.stepindicator1').style.background = 'rgba(124, 62, 255, 0.8)'
-    // getElement('.steponestatus').textContent = 'Unfilled'
     getElement('#submitBtn').classList.add('hidden')
     getElement('#nextBtn').classList.remove('hidden')
-    // document.querySelector('.steptwostatus').parentElement.style.color = 'rgba(255, 255, 255, 0.35)'
-    // document.querySelector('.steponestatus').parentElement.style.color = 'white'
     stepCount = 0
     getElement('#applicationSteps').classList.add("hide")
     getElement('#applicationContents').classList.remove("hide")
@@ -475,6 +530,142 @@ const submitApplication = () => {
         getElement('.applicationReceived').classList.add('hide')
     }, 4000);
 }
+const sendPoliceRequest = () => {
+    console.log(policeinputs)
+    document.querySelector('.policesteps').innerHTML = ""
+    pushPoliceStepsIndicator()
+    getElement('.policestepindicator1').style.background = 'rgba(124, 62, 255, 0.8)'
+    getElement('#submitBtnPolice').classList.add('hidden')
+    getElement('#nextBtnPolice').classList.remove('hidden')
+    policeStepCount = 0
+    getElement('#policeRequestSteps').classList.add("hide")
+    getElement('#policeApplicationContents').classList.remove("hide")
+    getElement('.applicationReceived').classList.remove('hide')
+    setTimeout(() => {
+        getElement('.applicationReceived').classList.add('hide')
+    }, 4000);
+}
+let applicationsData = [
+    {
+        name: "Alicia Keyys",
+        id: 151,
+        expiresIn: "2 days",
+        status: "pending",
+        role: "driver",
+        department: "delivery",
+        imageUrl: "images/character.png"
+    },
+]
+const uploadApplications = (data) => {
+    getElement('.applications').innerHTML = ''
+    data.map((app) => {
+        const {name, id, expiresIn, status, role, department, imageUrl} = app;
+        getElement('.applications').innerHTML += `
+        <div class="application">
+        <div class="image-box"><img src="${imageUrl}" alt=""></div>
+        <article>
+          <h3 class="semibold fm">${name}</h3>
+          <div class="details flexsmall">
+            <p>${role}</p><span class="dot"></span>
+            <p>${department}</p><span class="dot"></span>
+            <p>ID: ${id}</p>
+          </div>
+        </article>
+        <div class="cancel" onclick="deleteApplication(${id})">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <path d="M14.0932 15L10.0032 10.9062L5.91318 15L5 14.0874L9.09646 10L5 5.9126L5.91318 5L10.0032 9.09383L14.0932 5.00643L15 5.9126L10.91 10L15 14.0874L14.0932 15Z" fill="#FF6565" fill-opacity="0.6"/>
+            </svg>
+        </div>
+        <div class="due">in ${expiresIn}</div>
+      </div>
+        `
+    })
+}
+uploadApplications(applicationsData);
+const deleteApplication = (id) => {
+    applicationsData = applicationsData.filter((application) => application.id !== id);
+    uploadApplications(applicationsData);
+}
+
+const pushPoliceStepsIndicator = () => {
+    for (let index = 0; index < totalPoliceSteps; index++) {
+        document.querySelector('.policesteps').innerHTML += `
+        <p class="fm step bold policestepindicator${index+1}">${index + 1}</p>
+        <span class="dashstep policedash${index+1}"></span>
+        `
+    }
+}
+pushPoliceStepsIndicator()
+
+let policeStepCount = 0
+getElement('.policestepindicator1').style.background = 'rgba(124, 62, 255, 0.8)'
+const nextPoliceStep = () => {
+    if(policeStepCount >= 0 && policeStepCount < totalPoliceSteps ){
+        policeStepCount ++
+        getElement(`.policedash${policeStepCount}`).classList.toggle('green')
+        getElement(`.policestepindicator${policeStepCount}`).classList.add('done')
+        getElement(`.policestepindicator${policeStepCount}`).innerHTML = `
+        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
+        <path d="M13.8182 22L8 16.2857L10.0364 14.2857L13.8182 18L21.9636 10L24 12L13.8182 22Z" fill="#57FFAF"/>
+        </svg>`
+        getElement(`.policestepindicator${policeStepCount + 1}`).style.background = 'rgba(124, 62, 255, 0.8)';
+        policeSteps.map((step) => {
+            if(policeSteps[policeStepCount] === step){
+                document.querySelector(step).classList.remove('hide')
+            } else {
+                document.querySelector(step).classList.add('hide')
+            }
+        })
+        if(policeStepCount === totalPoliceSteps - 1){
+            getElement('#submitBtnPolice').classList.remove('hidden')
+            getElement('#nextBtnPolice').classList.add('hidden')
+        }
+    } 
+}
+const prevPoliceStep = () => {
+    if(policeStepCount > 0){
+        policeStepCount --
+        getElement(`.policedash${policeStepCount+1}`).classList.toggle('green')
+        getElement(`.policestepindicator${policeStepCount + 1}`).classList.remove('done')
+        getElement(`.policestepindicator${policeStepCount + 1}`).innerHTML = policeStepCount + 1
+        getElement(`.policestepindicator${policeStepCount + 2}`).style.background = 'rgba(124, 62, 255, 0.2)';
+        policeSteps.map((step) => {
+            if(policeSteps[policeStepCount] == step){
+                document.querySelector(step).classList.remove('hide')
+            } else {
+                document.querySelector(step).classList.add('hide')
+            }
+            getElement('#submitBtnPolice').classList.add('hidden')
+            getElement('#nextBtnPolice').classList.remove('hidden')
+        })
+    }
+}
+const uploadPoliceApplication = (data) => {
+    getElement('.policeapplications').innerHTML = ''
+    data.map((app) => {
+        const {name, id, expiresIn, status, role, department, imageUrl} = app;
+        getElement('.policeapplications').innerHTML += `
+        <div class="application">
+        <div class="image-box"><img src="${imageUrl}" alt=""></div>
+        <article>
+          <h3 class="semibold fm">${name}</h3>
+          <div class="details flexsmall">
+            <p>${role}</p><span class="dot"></span>
+            <p>${department}</p><span class="dot"></span>
+            <p>ID: ${id}</p>
+          </div>
+        </article>
+        <div class="cancel" onclick="deleteApplication(${id})">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <path d="M14.0932 15L10.0032 10.9062L5.91318 15L5 14.0874L9.09646 10L5 5.9126L5.91318 5L10.0032 9.09383L14.0932 5.00643L15 5.9126L10.91 10L15 14.0874L14.0932 15Z" fill="#FF6565" fill-opacity="0.6"/>
+            </svg>
+        </div>
+        <div class="due">in ${expiresIn}</div>
+      </div>
+        `
+    })
+}
+uploadPoliceApplication(applicationsData)
 // ESCAPE KEY BACK
 document.addEventListener('keydown', evt => {
     if (evt.key === 'Escape') {
