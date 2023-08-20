@@ -184,156 +184,54 @@
                           </section>
                           <!-- POLICE -->
                           <section class="content police-content hide-content">
-                            <h2>POLICE</h2>
-                            <div>
-                              <form autocomplete="off">
-                                <div class="inputbox flexlittle" id="inputbox">
-                                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
-                                    <path d="M12.7025 6.06027L9.912 3.29863L10.8312 2.37808C11.0829 2.12603 11.3922 2 11.759 2C12.1258 2 12.4349 2.12603 12.6861 2.37808L13.6054 3.29863C13.8571 3.55068 13.9884 3.8549 13.9993 4.21129C14.0103 4.56767 13.8899 4.87167 13.6382 5.12329L12.7025 6.06027ZM11.7505 7.03014L4.79054 14H2V11.2055L8.95993 4.23562L11.7505 7.03014Z" fill="white" fill-opacity="0.35"/>
-                                  </svg>
-                                  <input type="text" name="policeapplicationname" id="policeapplicationname" placeholder="Your Name" >
-                                </div>
-                                <div class="textareabox flexlittle" id="textareabox">
-                                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
-                                    <path d="M12.7025 6.06027L9.912 3.29863L10.8312 2.37808C11.0829 2.12603 11.3922 2 11.759 2C12.1258 2 12.4349 2.12603 12.6861 2.37808L13.6054 3.29863C13.8571 3.55068 13.9884 3.8549 13.9993 4.21129C14.0103 4.56767 13.8899 4.87167 13.6382 5.12329L12.7025 6.06027ZM11.7505 7.03014L4.79054 14H2V11.2055L8.95993 4.23562L11.7505 7.03014Z" fill="white" fill-opacity="0.35"/>
-                                  </svg>
-                                  <textarea name="policeapplicationabout" id="policeapplicationabout" placeholder="Briefly About You"></textarea>
-                                </div>
-                                <section class="policeworkschedule relative">
-                                  <div class="flexlittle">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-                                      <path d="M9.99996 1.66667C14.6025 1.66667 18.3333 5.3975 18.3333 10C18.3333 14.6025 14.6025 18.3333 9.99996 18.3333C5.39746 18.3333 1.66663 14.6025 1.66663 10C1.66663 5.3975 5.39746 1.66667 9.99996 1.66667ZM9.99996 5C9.77895 5 9.56698 5.0878 9.4107 5.24408C9.25442 5.40036 9.16663 5.61232 9.16663 5.83333V10C9.16667 10.221 9.2545 10.4329 9.41079 10.5892L11.9108 13.0892C12.068 13.241 12.2785 13.325 12.497 13.3231C12.7155 13.3212 12.9245 13.2335 13.079 13.079C13.2335 12.9245 13.3211 12.7155 13.323 12.497C13.3249 12.2785 13.2409 12.068 13.0891 11.9108L10.8333 9.655V5.83333C10.8333 5.61232 10.7455 5.40036 10.5892 5.24408C10.4329 5.0878 10.221 5 9.99996 5Z" fill="white" fill-opacity="0.35"/>
-                                    </svg>
-                                    <p class="fs">Preferred work schedule</p>
-                                  </div>
-                                  <div class="flexlittle pointer semibold days" onclick="toggleDropDown('.policeworkschedule')">
-                                    <p class="semibold">DAYS</p>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="7" viewBox="0 0 12 7" fill="none">
-                                      <path d="M5.46967 6.53033C5.76256 6.82322 6.23744 6.82322 6.53033 6.53033L11.3033 1.75736C11.5962 1.46447 11.5962 0.989593 11.3033 0.6967C11.0104 0.403806 10.5355 0.403806 10.2426 0.6967L6 4.93934L1.75736 0.696699C1.46447 0.403805 0.989593 0.403805 0.6967 0.696699C0.403806 0.989592 0.403806 1.46447 0.696699 1.75736L5.46967 6.53033ZM5.25 5L5.25 6L6.75 6L6.75 5L5.25 5Z" fill="white" fill-opacity="0.65"/>
-                                    </svg>
-                                  </div>
-                                  <div class="hidden policeworkscheduledropdown"></div>
-                                </section>
-                                <section class="policedepartmentschedule relative">
-                                  <div class="flexlittle">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-                                      <path d="M17.5 3.5L16 1.875C15.1375 2.395 14.05 2.6875 13 2.6875C11.95 2.6875 10.855 2.38687 10 1.875C9.145 2.38687 8.05 2.6875 7 2.6875C5.95 2.6875 4.8625 2.395 4 1.875L2.5 3.5C2.5 3.5 4 5.125 4 6.75C4 8.375 2.5 11.625 2.5 13.25C2.5 16.5 10 18.125 10 18.125C10 18.125 17.5 16.5 17.5 13.25C17.5 11.625 16 8.375 16 6.75C16 5.125 17.5 3.5 17.5 3.5ZM12.2875 13.6156L9.9775 12.1044L7.675 13.6156L8.29 10.7719L6.25 8.87062L8.935 8.61875L9.9775 5.9375L11.0275 8.61062L13.7125 8.8625L11.6725 10.7638L12.2875 13.6156Z" fill="white" fill-opacity="0.35"/>
-                                    </svg>
-                                    <p class="fs">Preferred department</p>
-                                  </div>
-                                  <div class="flexlittle pointer semibold days" onclick="toggleDropDown('.policedepartmentschedule')">
-                                    <p class="semibold">DEPARTMENTS</p>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="7" viewBox="0 0 12 7" fill="none">
-                                      <path d="M5.46967 6.53033C5.76256 6.82322 6.23744 6.82322 6.53033 6.53033L11.3033 1.75736C11.5962 1.46447 11.5962 0.989593 11.3033 0.6967C11.0104 0.403806 10.5355 0.403806 10.2426 0.6967L6 4.93934L1.75736 0.696699C1.46447 0.403805 0.989593 0.403805 0.6967 0.696699C0.403806 0.989592 0.403806 1.46447 0.696699 1.75736L5.46967 6.53033ZM5.25 5L5.25 6L6.75 6L6.75 5L5.25 5Z" fill="white" fill-opacity="0.65"/>
-                                    </svg>
-                                  </div>
-                                  <div class="hidden policedepartmentscheduledropdown"></div>
-                                </section>
-                                <div class="checkboxes flexsmall">
-                                  <div class="flexlittle fxs pointer" onclick="selectOption('.policetrip')">
-                                    <span class="checkbox policetrip">
-                                      <svg xmlns="http://www.w3.org/2000/svg" class="policetripcheck hidden" width="16" height="16" viewBox="0 0 16 16" fill="none">
-                                        <path d="M6.63636 12L3 8.19048L4.27273 6.85714L6.63636 9.33333L11.7273 4L13 5.33333L6.63636 12Z" fill="black"/>
+                            <section class="policequestions" id="policeRequestSteps">
+                              <div>
+                                <h2>POLICE</h2>
+                                <section class="flexsmall policesteps"></section>
+                              </div>
+                              <section id="police-steps-container"></section>
+                              <div class="ems-btns">
+                                <button class="previous bold fs pointer" id="prevBtnPolice"onclick="prevPoliceStep()">PREVIOUS STEP</button>
+                                <button class="next bold fs pointer" id="nextBtnPolice" onclick="nextPoliceStep()">NEXT STEP</button>
+                                <button class="next bold fs pointer hidden" id="submitBtnPolice" onclick="sendPoliceRequest()">SEND REQUEST</button>
+                              </div>
+                            </section>
+                            <section class="hide" id="policeApplicationContents">
+                              <div class="relative">
+                                <h2>POLICE</h2>
+                                <div class="policeapplications"></div>
+                                <div class="applicationPending">
+                                  <div class="status flexsmall">
+                                    <button class="semibold fs pending">Application pending</button>
+                                    <div class="edit">
+                                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                        <path d="M19.0538 9.09041L14.868 4.94795L16.2469 3.56712C16.6244 3.18904 17.0883 3 17.6385 3C18.1887 3 18.6523 3.18904 19.0292 3.56712L20.408 4.94795C20.7856 5.32603 20.9826 5.78236 20.999 6.31693C21.0154 6.85151 20.8348 7.30751 20.4573 7.68493L19.0538 9.09041ZM17.6257 10.5452L7.18581 21H3V16.8082L13.4399 6.35342L17.6257 10.5452Z" fill="#CDB5FF" fill-opacity="0.5"/>
                                       </svg>
-                                    </span>
-                                    <p>Ready for a trip out of town</p>
-                                  </div>
-                                  <div class="flexlittle fxs pointer" onclick="selectOption('.policerework')">
-                                    <span class="checkbox policerework">
-                                      <svg xmlns="http://www.w3.org/2000/svg" class="policereworkcheck hidden" width="16" height="16" viewBox="0 0 16 16" fill="none">
-                                        <path d="M6.63636 12L3 8.19048L4.27273 6.85714L6.63636 9.33333L11.7273 4L13 5.33333L6.63636 12Z" fill="black"/>
-                                      </svg>
-                                    </span>
-                                    <p>Ready for rework</p>
-                                  </div>
+                                    </div>
                                 </div>
-                                <button type="button" class="pointer bold fs next" onclick="getRequest()">SEND REQUEST</button>
-                              </form>
-                            </div>
+                              </div>
+                            </section>
+                            
                           </section>
                           <!-- EMS -->
                           <section class="content">
                             <section class="ems-content hide-content" id="applicationSteps">
-                              <div class="">
+                              <div>
                                 <h2>EMS</h2>
-                                <section class="flexsmall steps">
-                                  <!-- <p class="fm step bold stepone">1</p>
-                                  <span class="dashstep"></span>
-                                  <p class="fm step bold steptwo">2</p> -->
-                                </section>
-                                <!-- <section class="step-progress">
-                                  <p class="fs active"> Step 1: <span class="steponestatus">Unfilled</span></p>
-                                  <p class="fs"> Step 2: <span class="steptwostatus">Unfilled</span></p>
-                                </section> -->
+                                <section class="flexsmall steps"></section>
                               </div>
-                              <section id="ems-steps-container">
-                                
-                              </section>
-                              <!-- <div class="step1">
-                                <form autocomplete="off" class="step1form form"></form>
-                              </div>
-                              <div class="">
-                                <form autocomplete="off" class="form">
-                                  <section class="emsworkschedule relative">
-                                    <div class="flexlittle">
-                                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-                                        <path d="M9.99996 1.66667C14.6025 1.66667 18.3333 5.3975 18.3333 10C18.3333 14.6025 14.6025 18.3333 9.99996 18.3333C5.39746 18.3333 1.66663 14.6025 1.66663 10C1.66663 5.3975 5.39746 1.66667 9.99996 1.66667ZM9.99996 5C9.77895 5 9.56698 5.0878 9.4107 5.24408C9.25442 5.40036 9.16663 5.61232 9.16663 5.83333V10C9.16667 10.221 9.2545 10.4329 9.41079 10.5892L11.9108 13.0892C12.068 13.241 12.2785 13.325 12.497 13.3231C12.7155 13.3212 12.9245 13.2335 13.079 13.079C13.2335 12.9245 13.3211 12.7155 13.323 12.497C13.3249 12.2785 13.2409 12.068 13.0891 11.9108L10.8333 9.655V5.83333C10.8333 5.61232 10.7455 5.40036 10.5892 5.24408C10.4329 5.0878 10.221 5 9.99996 5Z" fill="white" fill-opacity="0.35"/>
-                                      </svg>
-                                      <p class="fs">Preferred work schedule</p>
-                                    </div>
-                                    <div class="flexlittle pointer semibold days" onclick="toggleDropDown('.emsworkschedule')">
-                                      <p class="semibold">DAYS</p>
-                                      <svg xmlns="http://www.w3.org/2000/svg" width="12" height="7" viewBox="0 0 12 7" fill="none">
-                                        <path d="M5.46967 6.53033C5.76256 6.82322 6.23744 6.82322 6.53033 6.53033L11.3033 1.75736C11.5962 1.46447 11.5962 0.989593 11.3033 0.6967C11.0104 0.403806 10.5355 0.403806 10.2426 0.6967L6 4.93934L1.75736 0.696699C1.46447 0.403805 0.989593 0.403805 0.6967 0.696699C0.403806 0.989592 0.403806 1.46447 0.696699 1.75736L5.46967 6.53033ZM5.25 5L5.25 6L6.75 6L6.75 5L5.25 5Z" fill="white" fill-opacity="0.65"/>
-                                      </svg>
-                                    </div>
-                                    <div class="hidden emsworkscheduledropdown"></div>
-                                  </section>
-                                  <section class="emsdepartmentschedule relative">
-                                    <div class="flexlittle">
-                                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-                                        <path d="M17.5 3.5L16 1.875C15.1375 2.395 14.05 2.6875 13 2.6875C11.95 2.6875 10.855 2.38687 10 1.875C9.145 2.38687 8.05 2.6875 7 2.6875C5.95 2.6875 4.8625 2.395 4 1.875L2.5 3.5C2.5 3.5 4 5.125 4 6.75C4 8.375 2.5 11.625 2.5 13.25C2.5 16.5 10 18.125 10 18.125C10 18.125 17.5 16.5 17.5 13.25C17.5 11.625 16 8.375 16 6.75C16 5.125 17.5 3.5 17.5 3.5ZM12.2875 13.6156L9.9775 12.1044L7.675 13.6156L8.29 10.7719L6.25 8.87062L8.935 8.61875L9.9775 5.9375L11.0275 8.61062L13.7125 8.8625L11.6725 10.7638L12.2875 13.6156Z" fill="white" fill-opacity="0.35"/>
-                                      </svg>
-                                      <p class="fs">Preferred department</p>
-                                    </div>
-                                    <div class="flexlittle pointer semibold days" onclick="toggleDropDown('.emsdepartmentschedule')">
-                                      <p class="semibold">DEPARTMENTS</p>
-                                      <svg xmlns="http://www.w3.org/2000/svg" width="12" height="7" viewBox="0 0 12 7" fill="none">
-                                        <path d="M5.46967 6.53033C5.76256 6.82322 6.23744 6.82322 6.53033 6.53033L11.3033 1.75736C11.5962 1.46447 11.5962 0.989593 11.3033 0.6967C11.0104 0.403806 10.5355 0.403806 10.2426 0.6967L6 4.93934L1.75736 0.696699C1.46447 0.403805 0.989593 0.403805 0.6967 0.696699C0.403806 0.989592 0.403806 1.46447 0.696699 1.75736L5.46967 6.53033ZM5.25 5L5.25 6L6.75 6L6.75 5L5.25 5Z" fill="white" fill-opacity="0.65"/>
-                                      </svg>
-                                    </div>
-                                    <div class="hidden emsdepartmentscheduledropdown"></div>
-                                  </section>
-                                  <div class="checkboxes flexsmall">
-                                    <div class="flexlittle fxs pointer" onclick="selectOption('.emstrip')">
-                                      <span class="emstrip checkbox">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="emstripcheck hidden" width="16" height="16" viewBox="0 0 16 16" fill="none">
-                                          <path d="M6.63636 12L3 8.19048L4.27273 6.85714L6.63636 9.33333L11.7273 4L13 5.33333L6.63636 12Z" fill="black"/>
-                                        </svg>
-                                      </span>
-                                      <p>Ready for a trip out of town</p>
-                                    </div>
-                                    <div class="flexlittle fxs pointer" onclick="selectOption('.emsrework')">
-                                      <span class="emsrework checkbox">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="emsreworkcheck hidden" width="16" height="16" viewBox="0 0 16 16" fill="none">
-                                          <path d="M6.63636 12L3 8.19048L4.27273 6.85714L6.63636 9.33333L11.7273 4L13 5.33333L6.63636 12Z" fill="black"/>
-                                        </svg>
-                                      </span>
-                                      <p>Ready for rework</p>
-                                    </div>
-                                  </div>
-                                </form>
-                              </div> -->
+                              <section id="ems-steps-container"></section>
                               <div class="ems-btns">
                                 <button class="previous bold fs pointer" id="prevBtn"onclick="prevStep()">PREVIOUS STEP</button>
                                 <button class="next bold fs pointer" id="nextBtn" onclick="nextStep()">NEXT STEP</button>
-                                <button class="next bold fs pointer hidden" id="submitBtn" onclick="submitApplication()">SUBMIT</button>
+                                <button class="next bold fs pointer hidden" id="submitBtn" onclick="submitApplication()">SEND REQUEST</button>
                               </div>
                             </section>
                             <section class="ems-content hide" id="applicationContents">
                               <div class="relative">
                               <h2>EMS</h2>
-                              <div class="applications">
+                              <div class="applications"></div>
+                              <div class="applicationPending">
                                 <div class="status flexsmall">
                                   <button class="semibold fs pending">Application pending</button>
                                   <div class="edit">
