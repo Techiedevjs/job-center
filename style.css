@@ -435,9 +435,6 @@ input, textarea{
  form section:hover .days{
     background: rgba(255, 255, 255, 0.20);
 }
- .checkboxes{
-    margin-bottom: var(--padlarge);
-}
 .checkbox{
     display: flex;
     height: var(--fontmedium);
