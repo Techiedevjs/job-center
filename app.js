@@ -1,6 +1,89 @@
 const getElement = (elem) => {
     return document.querySelector(elem);
 }
+const applicableJobs = {
+    ems: [
+        {
+            title: "Your Name1",
+            type: 'input',
+            id:"name"
+        },
+        {
+            title: "Briefly About You",
+            type: 'textarea',
+            id:"about"
+        },
+        {
+            title: "Country",
+            type: 'input',
+            id:"country"
+        },
+        {
+            title: "IQ status",
+            type: 'dropdown',
+            id:"IQ",
+            dropdowncontents: ['100+', '120+', '135+'],
+            dropdowntitle: "IQ status"
+        },
+        {
+            title: "ready for sentence",
+            type: "checkbox",
+            id: "sentencecheck"
+        },
+    ],
+    police:[
+        {
+            title: "Your Name1",
+            type: 'input',
+            id:"policename"
+        },
+        {
+            title: "Briefly About You",
+            type: 'textarea',
+            id:"policeabout"
+        },
+        {
+            title: "Country",
+            type: 'input',
+            id:"policecountry"
+        },
+        {
+            title: "Marital status",
+            type: 'dropdown',
+            id:"marital",
+            dropdowncontents: ['married', 'single', 'divorced'],
+            dropdowntitle: "marital status"
+        },
+        {
+            title: "ready for deployment",
+            type: "checkbox",
+            id: "deploymentcheck"
+        },
+        {
+            title: "chill first",
+            type: 'textarea',
+            id:"applcheckii"
+        },
+        {
+            title: "State",
+            type: 'input',
+            id:"statekinda"
+        },
+        {
+            title: "ready for work",
+            type: "checkbox",
+            id: "readycheck"
+        },
+        {
+            title: "ready for vacation",
+            type: "checkbox",
+            id: "vacationcheck"
+        }
+    ],
+    mechanic: [
+
+    ]
+}
 // SWITCHING OF MAIN CONTENT/MENU AND MENU ACTIVE STATE
 const sideMenu = [
     {
@@ -144,11 +227,11 @@ const policeQuestions = [
             type: "checkbox",
             id: "readycheck"
         },
-        // {
-        //     title: "ready for deployment",
-        //     type: "checkbox",
-        //     id: "deploymentcheck"
-        // }
+        {
+            title: "ready for deployment",
+            type: "checkbox",
+            id: "deploymentcheck"
+        }
     ],
 ]
 const totalPoliceSteps = policeQuestions.length
@@ -161,11 +244,6 @@ const toggleDropDown = (name) => {
     getElement(name).classList.toggle('activedropdown');
     getElement(name + 'dropdown').classList.toggle('hidden');
     getElement(name + 'dropdown').classList.toggle('daysdropdown');
-    if(name === '.policeworkschedule'){
-        closeDropDown('.policedepartmentschedule')
-    } else if(name === '.policedepartmentschedule'){
-        closeDropDown('.policeworkschedule')
-    }
 }
 let policeRequest = {
     name: '',
@@ -201,116 +279,8 @@ const refreshPoliceForm = () => {
     })
 }
 // EMS 
-const emsQuestions = [
-    [
-        {
-            title: "Your Name1",
-            type: 'input',
-            id:"applicantname"
-        },
-        {
-            title: "Briefly About You",
-            type: 'textarea',
-            id:"applicantabout"
-        },
-        {
-            title: "Country",
-            type: 'input',
-            id:"applicantcountry"
-        },
-    ],
-    [
-        {
-            title: "Input and Textarea working now2",
-            type: 'input',
-            id:"testing"
-        },
-        {
-            title: "Everybody needs to chilll",
-            type: 'textarea',
-            id:"everybodychill"
-        },
-        {
-            title: "Gender",
-            type: 'dropdown',
-            id:"gender",
-            dropdowncontents: ['male', 'female'],
-            dropdowntitle: "gender"
-        },
-    ],
-    [
-        {
-            title: "Your region",
-            type: 'dropdown',
-            id:"region",
-            dropdowncontents: ['north', "west", "south", "east"],
-            dropdowntitle: "region"
-        },
-        {
-            title: "chill first",
-            type: 'textarea',
-            id:"applcheck"
-        },
-        {
-            title: "State",
-            type: 'input',
-            id:"state"
-        },
-    ],
-    [
-        {
-            title: "Your place",
-            type: 'dropdown',
-            id:"place",
-            dropdowncontents: ['northplace', "westplace", "southplace", "eastplace"],
-            dropdowntitle: "place"
-        },
-        {
-            title: "chill first",
-            type: 'textarea',
-            id:"applcheck"
-        },
-        {
-            title: "State",
-            type: 'input',
-            id:"state"
-        },
-    ],
-    [
-        {
-            title: "Your region",
-            type: 'dropdown',
-            id:"test",
-            dropdowncontents: ['northtest', "westtest", "southtest", "easttest"],
-            dropdowntitle: "test"
-        },
-        {
-            title: "chill first",
-            type: 'textarea',
-            id:"applcheck"
-        },
-        {
-            title: "State",
-            type: 'input',
-            id:"state"
-        },
-    ],
-]
 let emsinputs = []
 let policeinputs = []
-const totalsteps = emsQuestions.length
-let steps = []
-let classCount = 1
-const pushEmsSteps = (data) => {
-    data.map((step) => {
-        document.querySelector('#ems-steps-container').innerHTML += `
-        <div class='step${classCount} ems-steps ${classCount === 1 ? '' : 'hide'}'></div>
-        `
-        steps.push(`.step${classCount}`)
-        step.map((item) => pushStepQuestions(item, `.step${classCount}`, 'ems'))
-        classCount ++
-    })
-}
 const pushStepQuestions = (stepData, elem, page) => {
     const {title, type, id, dropdowncontents, dropdowntitle} = stepData;
     if (type === 'dropdown'){
@@ -365,7 +335,7 @@ const pushStepQuestions = (stepData, elem, page) => {
             <path d="M12.7025 6.06027L9.912 3.29863L10.8312 2.37808C11.0829 2.12603 11.3922 2 11.759 2C12.1258 2 12.4349 2.12603 12.6861 2.37808L13.6054 3.29863C13.8571 3.55068 13.9884 3.8549 13.9993 4.21129C14.0103 4.56767 13.8899 4.87167 13.6382 5.12329L12.7025 6.06027ZM11.7505 7.03014L4.79054 14H2V11.2055L8.95993 4.23562L11.7505 7.03014Z" fill="white" fill-opacity="0.35"/>
         </svg>
         ${type === 'textarea' ? 
-        `<textarea name="ems${id}" id="ems${id}" placeholder="${title}" onfocus="activeStateOn('${id}')" onfocusout="activeStateOut('${id}')" oninput="saveInput('${title}', 'ems${id}', '${page}')"></textarea> ` :
+        `<textarea name="ems${id}" id="ems${id}" placeholder="${title}" onfocus="activeStateOn('${id}')" rows="7" onfocusout="activeStateOut('${id}')" oninput="saveInput('${title}', 'ems${id}', '${page}')"></textarea> ` :
         `<input type="text" name="ems${id}" id="ems${id}" placeholder="${title}" onfocus="activeStateOn('${id}')" onfocusout="activeStateOut('${id}')" oninput="saveInput('${title}', 'ems${id}', '${page}')"> `
         }
     </div>
@@ -373,20 +343,38 @@ const pushStepQuestions = (stepData, elem, page) => {
     page === 'ems' ? emsinputs.push({question: title, userinput: ""}) : policeinputs.push({question: title, userinput: ""})
     }
 }
-pushEmsSteps(emsQuestions)
-let count = 1
+// pushEmsSteps(emsQuestions)
 let policeSteps = []
+let policeallstep;
 const pushPoliceSteps = (data) => {
-    data.map((step) => {
+    policeallstep = Math.ceil(data.length / 5)  
+    let stepover = 6  
+    for (let index = 1; index < policeallstep+1; index++) {
+        console.log(index)
         document.querySelector('#police-steps-container').innerHTML += `
-        <div class='policestep${count} ems-steps ${count === 1 ? '' : 'hide'}'></div>
+        <div class='policestep${index} ems-steps ${index === 1 ? '' : 'hide'}'></div>
         `
-        policeSteps.push(`.policestep${count}`)
-        step.map((item) => pushStepQuestions(item, `.policestep${count}`, 'police'))
-        count ++
-    })
+        policeSteps.push(`.policestep${index}`)
+        data.slice(stepover - 6,stepover).map((item) => pushStepQuestions(item, `.policestep${index}`, 'police'))
+        stepover += 5
+    }
 }
-pushPoliceSteps(policeQuestions);
+pushPoliceSteps(applicableJobs.police);
+let emsSteps = []
+let emsallstep = 1;
+const pushEmsSteps = (data) => {
+    emsallstep = Math.ceil(data.length / 5)  
+    let emsstepover = 6  
+    for (let index = 1; index < emsallstep+1; index++) {
+        document.querySelector('#ems-steps-container').innerHTML += `
+        <div class='emsstep${index} ems-steps ${index === 1 ? '' : 'hide'}'></div>
+        `
+        emsSteps.push(`.emsstep${index}`)
+        data.slice(emsstepover - 6,emsstepover).map((item) => pushStepQuestions(item, `.emsstep${index}`, 'ems'))
+        emsstepover += 5
+    }
+}
+pushEmsSteps(applicableJobs.ems)
 const saveInput = (title, id, page) => {
     let value = getElement(`#${id}`).value
     if(page === 'ems'){
@@ -410,14 +398,14 @@ const saveInput = (title, id, page) => {
         })
     }
 }
-getElement('.menu-ems').addEventListener('click', () => {
-    getElement('#applicationSteps').classList.remove("hide")
-    getElement('#applicationContents').classList.add("hide")
-})
-getElement('.menu-police').addEventListener('click', () => {
-    getElement('#policeRequestSteps').classList.remove("hide")
-    getElement('#policeApplicationContents').classList.add("hide")
-})
+// getElement('.menu-ems').addEventListener('click', () => {
+//     getElement('#applicationSteps').classList.remove("hide")
+//     getElement('#applicationContents').classList.add("hide")
+// })
+// getElement('.menu-police').addEventListener('click', () => {
+//     getElement('#policeRequestSteps').classList.remove("hide")
+//     getElement('#policeApplicationContents').classList.add("hide")
+// })
 const activeStateOn = (id) => {
         getElement(`#${id}`).classList.add('inputactive')
 }
@@ -425,7 +413,7 @@ const activeStateOut = (id) => {
     getElement(`#${id}`).classList.remove('inputactive')
 }
 const pushEmsStepsIndicator = () => {
-    for (let index = 0; index < totalsteps; index++) {
+    for (let index = 0; index < emsallstep; index++) {
         document.querySelector('.steps').innerHTML += `
         <p class="fm step bold stepindicator${index+1}">${index + 1}</p>
         <span class="dashstep dash${index+1}"></span>
@@ -434,10 +422,17 @@ const pushEmsStepsIndicator = () => {
 }
 pushEmsStepsIndicator()
 // SWITCH TO NEXT AND PREVIOUS STEP
+if(emsallstep === 1 ){
+    document.querySelector('.steps').innerHTML = ''
+    getElement('#submitBtn').classList.remove('hidden')
+    getElement('#nextBtn').classList.add('hidden')
+    getElement('#prevBtn').classList.add('hidden')
+} else {
+    getElement('.stepindicator1').style.background = 'rgba(124, 62, 255, 0.8)'
+}
 let stepCount = 0
-getElement('.stepindicator1').style.background = 'rgba(124, 62, 255, 0.8)'
 const nextStep = () => {
-    if(stepCount >= 0 && stepCount < totalsteps ){
+    if(stepCount >= 0 && stepCount < emsallstep ){
         stepCount ++
         getElement(`.dash${stepCount}`).classList.toggle('green')
         getElement(`.stepindicator${stepCount}`).classList.add('done')
@@ -447,13 +442,13 @@ const nextStep = () => {
         </svg>`
         getElement(`.stepindicator${stepCount + 1}`).style.background = 'rgba(124, 62, 255, 0.8)';
         steps.map((step) => {
-            if(steps[stepCount] === step){
+            if(emsSteps[stepCount] === step){
                 document.querySelector(step).classList.remove('hide')
             } else {
                 document.querySelector(step).classList.add('hide')
             }
         })
-        if(stepCount === totalsteps - 1){
+        if(stepCount === emsallstep - 1){
             getElement('#submitBtn').classList.remove('hidden')
             getElement('#nextBtn').classList.add('hidden')
         }
@@ -554,50 +549,50 @@ const sendPoliceRequest = () => {
         getElement('.applicationReceived').classList.add('hide')
     }, 4000);
 }
-let applicationsData = [
-    {
-        name: "Alicia Keyys",
-        id: 151,
-        expiresIn: "2 days",
-        status: "pending",
-        role: "driver",
-        department: "delivery",
-        imageUrl: "images/character.png"
-    },
-]
-const uploadApplications = (data) => {
-    getElement('.applications').innerHTML = ''
-    data.map((app) => {
-        const {name, id, expiresIn, status, role, department, imageUrl} = app;
-        getElement('.applications').innerHTML += `
-        <div class="application">
-        <div class="image-box"><img src="${imageUrl}" alt=""></div>
-        <article>
-          <h3 class="semibold fm">${name}</h3>
-          <div class="details flexsmall">
-            <p>${role}</p><span class="dot"></span>
-            <p>${department}</p><span class="dot"></span>
-            <p>ID: ${id}</p>
-          </div>
-        </article>
-        <div class="cancel" onclick="deleteApplication(${id})">
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-            <path d="M14.0932 15L10.0032 10.9062L5.91318 15L5 14.0874L9.09646 10L5 5.9126L5.91318 5L10.0032 9.09383L14.0932 5.00643L15 5.9126L10.91 10L15 14.0874L14.0932 15Z" fill="#FF6565" fill-opacity="0.6"/>
-            </svg>
-        </div>
-        <div class="due">in ${expiresIn}</div>
-      </div>
-        `
-    })
-}
-uploadApplications(applicationsData);
-const deleteApplication = (id) => {
-    applicationsData = applicationsData.filter((application) => application.id !== id);
-    uploadApplications(applicationsData);
-}
+// let applicationsData = [
+//     {
+//         name: "Alicia Keyys",
+//         id: 151,
+//         expiresIn: "2 days",
+//         status: "pending",
+//         role: "driver",
+//         department: "delivery",
+//         imageUrl: "images/character.png"
+//     },
+// ]
+// const uploadApplications = (data) => {
+//     getElement('.applications').innerHTML = ''
+//     data.map((app) => {
+//         const {name, id, expiresIn, status, role, department, imageUrl} = app;
+//         getElement('.applications').innerHTML += `
+//         <div class="application">
+//         <div class="image-box"><img src="${imageUrl}" alt=""></div>
+//         <article>
+//           <h3 class="semibold fm">${name}</h3>
+//           <div class="details flexsmall">
+//             <p>${role}</p><span class="dot"></span>
+//             <p>${department}</p><span class="dot"></span>
+//             <p>ID: ${id}</p>
+//           </div>
+//         </article>
+//         <div class="cancel" onclick="deleteApplication(${id})">
+//           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+//             <path d="M14.0932 15L10.0032 10.9062L5.91318 15L5 14.0874L9.09646 10L5 5.9126L5.91318 5L10.0032 9.09383L14.0932 5.00643L15 5.9126L10.91 10L15 14.0874L14.0932 15Z" fill="#FF6565" fill-opacity="0.6"/>
+//             </svg>
+//         </div>
+//         <div class="due">in ${expiresIn}</div>
+//       </div>
+//         `
+//     })
+// }
+// uploadApplications(applicationsData);
+// const deleteApplication = (id) => {
+//     applicationsData = applicationsData.filter((application) => application.id !== id);
+//     uploadApplications(applicationsData);
+// }
 
 const pushPoliceStepsIndicator = () => {
-    for (let index = 0; index < totalPoliceSteps; index++) {
+    for (let index = 0; index < policeallstep; index++) {
         document.querySelector('.policesteps').innerHTML += `
         <p class="fm step bold policestepindicator${index+1}">${index + 1}</p>
         <span class="dashstep policedash${index+1}"></span>
@@ -607,9 +602,16 @@ const pushPoliceStepsIndicator = () => {
 pushPoliceStepsIndicator()
 
 let policeStepCount = 0
-getElement('.policestepindicator1').style.background = 'rgba(124, 62, 255, 0.8)'
+if(policeallstep === 1 ){
+    document.querySelector('.policesteps').innerHTML = ''
+    getElement('#submitBtnPolice').classList.remove('hidden')
+    getElement('#nextBtnPolice').classList.add('hidden')
+    getElement('#prevBtnPolice').classList.add('hidden')
+} else {
+    getElement('.policestepindicator1').style.background = 'rgba(124, 62, 255, 0.8)';
+}
 const nextPoliceStep = () => {
-    if(policeStepCount >= 0 && policeStepCount < totalPoliceSteps ){
+    if(policeStepCount >= 0 && policeStepCount < policeallstep ){
         policeStepCount ++
         getElement(`.policedash${policeStepCount}`).classList.toggle('green')
         getElement(`.policestepindicator${policeStepCount}`).classList.add('done')
@@ -625,7 +627,7 @@ const nextPoliceStep = () => {
                 document.querySelector(step).classList.add('hide')
             }
         })
-        if(policeStepCount === totalPoliceSteps - 1){
+        if(policeStepCount === policeallstep - 1){
             getElement('#submitBtnPolice').classList.remove('hidden')
             getElement('#nextBtnPolice').classList.add('hidden')
         }
@@ -649,32 +651,32 @@ const prevPoliceStep = () => {
         })
     }
 }
-const uploadPoliceApplication = (data) => {
-    getElement('.policeapplications').innerHTML = ''
-    data.map((app) => {
-        const {name, id, expiresIn, status, role, department, imageUrl} = app;
-        getElement('.policeapplications').innerHTML += `
-        <div class="application">
-        <div class="image-box"><img src="${imageUrl}" alt=""></div>
-        <article>
-          <h3 class="semibold fm">${name}</h3>
-          <div class="details flexsmall">
-            <p>${role}</p><span class="dot"></span>
-            <p>${department}</p><span class="dot"></span>
-            <p>ID: ${id}</p>
-          </div>
-        </article>
-        <div class="cancel" onclick="deleteApplication(${id})">
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-            <path d="M14.0932 15L10.0032 10.9062L5.91318 15L5 14.0874L9.09646 10L5 5.9126L5.91318 5L10.0032 9.09383L14.0932 5.00643L15 5.9126L10.91 10L15 14.0874L14.0932 15Z" fill="#FF6565" fill-opacity="0.6"/>
-            </svg>
-        </div>
-        <div class="due">in ${expiresIn}</div>
-      </div>
-        `
-    })
-}
-uploadPoliceApplication(applicationsData)
+// const uploadPoliceApplication = (data) => {
+//     getElement('.policeapplications').innerHTML = ''
+//     data.map((app) => {
+//         const {name, id, expiresIn, status, role, department, imageUrl} = app;
+//         getElement('.policeapplications').innerHTML += `
+//         <div class="application">
+//         <div class="image-box"><img src="${imageUrl}" alt=""></div>
+//         <article>
+//           <h3 class="semibold fm">${name}</h3>
+//           <div class="details flexsmall">
+//             <p>${role}</p><span class="dot"></span>
+//             <p>${department}</p><span class="dot"></span>
+//             <p>ID: ${id}</p>
+//           </div>
+//         </article>
+//         <div class="cancel" onclick="deleteApplication(${id})">
+//           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+//             <path d="M14.0932 15L10.0032 10.9062L5.91318 15L5 14.0874L9.09646 10L5 5.9126L5.91318 5L10.0032 9.09383L14.0932 5.00643L15 5.9126L10.91 10L15 14.0874L14.0932 15Z" fill="#FF6565" fill-opacity="0.6"/>
+//             </svg>
+//         </div>
+//         <div class="due">in ${expiresIn}</div>
+//       </div>
+//         `
+//     })
+// }
+// uploadPoliceApplication(applicationsData)
 // ESCAPE KEY BACK
 document.addEventListener('keydown', evt => {
     if (evt.key === 'Escape') {
