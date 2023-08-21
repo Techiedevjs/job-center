@@ -303,6 +303,7 @@ body{
     display: flex;
     flex-direction: column;
     gap: var(--gaplarge);
+    overflow: hidden;
 }
 .content h2{
     font-size: var(--fontlarge);
@@ -444,6 +445,9 @@ input, textarea{
     justify-content: center;
     align-items: center;
 }
+.checkboxes{
+    width: max-content;
+}
 .checkboxes:hover .checkbox svg path{
     fill: rgba(124, 62, 255, 1);
 }
@@ -453,7 +457,7 @@ input, textarea{
 .checkbox:hover{
     border: rgba(124, 62, 255, 0.8) 2px solid;
 }
-.policequestions{
+.policequestions, .emsquestions{
     height: 100%;
     display: flex;
     justify-content: space-around;
@@ -478,19 +482,17 @@ input, textarea{
 .ems-steps{
     display: flex;
     flex-direction: column;
-    height: 100%;
-    padding-top: var(--padmedium);
+    overflow-y: scroll;
+    height: 35vh;
+    /* padding-top: var(--padmedium); */
     padding-right: var(--padmedium);
     gap: var(--gap);
-}
-.ems-steps textarea{
-    flex: 1;
 }
 .ems-btns{
     margin:0 auto;
     width: 80%;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
+    display: flex;
+    justify-content: center;
     gap: var(--gap);
 }
 .ems-btns button{
@@ -498,6 +500,7 @@ input, textarea{
     border-radius: var(--radius);
     letter-spacing: 2.24px;
     border: none;
+    width: 50%;
 }
 .ems-btns .previous{
     color: rgba(255, 255, 255, 0.70);
@@ -515,11 +518,6 @@ input, textarea{
 }
 .next:hover{
     background: rgba(124, 62, 255, 0.90);
-}
-.ems-content section div{
-    display: flex;
-    justify-content: center;
-    align-items: center;
 }
 .ems-content .steps, .policesteps{
     display: flex;
@@ -748,8 +746,8 @@ input, textarea{
     flex-direction: column;
     position: absolute;
     align-items: initial !important;
-    top: -60%;
-    right: -120px;
+    top: 0%;
+    right: 30%;
     z-index: 20;
 }
 .daysdropdown div{
