@@ -22,7 +22,7 @@ const applicableJobs = {
             title: "IQ status",
             type: 'dropdown',
             id:"IQ",
-            dropdowncontents: ['100+', '120+', '135+'],
+            dropdowncontents: ['high', 'medium', 'low'],
             dropdowntitle: "IQ status"
         },
         {
@@ -31,6 +31,10 @@ const applicableJobs = {
             id: "sentencecheck"
         },
     ],
+    emsApplication: {
+        applicationSubmitted: true,
+        applicationStatus: "approved"
+    },
     police:[
         {
             title: "Your Name1",
@@ -87,14 +91,17 @@ const applicableJobs = {
 // SWITCHING OF MAIN CONTENT/MENU AND MENU ACTIVE STATE
 const sideMenu = [
     {
+        name: "hot-jobs",
         menu: getElement('.menu-hot-jobs'),
         content: getElement('.hot-jobs-content')
     },
     {
+        name: "police",
         menu: getElement('.menu-police'),
         content: getElement('.police-content')
     },
     {
+        name: "ems",
         menu: getElement('.menu-ems'),
         content: getElement('.ems-content')
     },
@@ -172,113 +179,6 @@ const uploadJobs = (data) => {
     })
 }
 uploadJobs(jobs);
-
-// POLICE
-const policeQuestions = [
-    [
-        {
-            title: "Your Name1",
-            type: 'input',
-            id:"policename"
-        },
-        {
-            title: "Briefly About You",
-            type: 'textarea',
-            id:"policeabout"
-        },
-        {
-            title: "Country",
-            type: 'input',
-            id:"policecountry"
-        },
-    ],
-    [
-        {
-            title: "Input and Textarea working now2",
-            type: 'input',
-            id:"testingpolice"
-        },
-        {
-            title: "Everybody needs to chilll",
-            type: 'textarea',
-            id:"policedonshow"
-        },
-        {
-            title: "Marital status",
-            type: 'dropdown',
-            id:"marital",
-            dropdowncontents: ['married', 'single', 'divorced'],
-            dropdowntitle: "marital status"
-        },
-    ],
-    [
-        {
-            title: "chill first",
-            type: 'textarea',
-            id:"applcheckii"
-        },
-        {
-            title: "State",
-            type: 'input',
-            id:"statekinda"
-        },
-        {
-            title: "ready for work",
-            type: "checkbox",
-            id: "readycheck"
-        },
-        {
-            title: "ready for deployment",
-            type: "checkbox",
-            id: "deploymentcheck"
-        }
-    ],
-]
-const totalPoliceSteps = policeQuestions.length
-const closeDropDown = (name) => {
-    getElement(name).classList.remove('activedropdown');
-    getElement(name + 'dropdown').classList.add('hidden');
-    getElement(name + 'dropdown').classList.remove('daysdropdown');
-}
-const toggleDropDown = (name) => {
-    getElement(name).classList.toggle('activedropdown');
-    getElement(name + 'dropdown').classList.toggle('hidden');
-    getElement(name + 'dropdown').classList.toggle('daysdropdown');
-}
-let policeRequest = {
-    name: '',
-    about: '',
-    preferredWorkSchedule: [],
-    preferredDepartment: [],
-    trip: false,
-    rework: false
-}
-const getRequest = () => {
-    policeRequest.name = getElement('#policeapplicationname').value.toLowerCase();
-    policeRequest.about = getElement('#policeapplicationabout').value.toLowerCase();
-    refreshPoliceForm()
-}
-const refreshPoliceForm = () => {
-    policeRequest = {
-        name: '',
-        about: '',
-        preferredWorkSchedule: [],
-        preferredDepartment: [],
-        trip: false,
-        rework: false
-    }
-    getElement('#policeapplicationname').value = ''
-    getElement('#policeapplicationabout').value = ''
-    getElement('.policereworkcheck').classList.add('hidden')
-    getElement('.policetripcheck').classList.add('hidden')
-    days.map((day) => {
-        getElement(`.policework${day}check`).classList.add('hidden');
-    })
-    departments.map((department) => {
-        getElement(`.policedepartment${department}check`).classList.add('hidden');
-    })
-}
-// EMS 
 let emsinputs = []
 let policeinputs = []
 const pushStepQuestions = (stepData, elem, page) => {
@@ -343,38 +243,107 @@ const pushStepQuestions = (stepData, elem, page) => {
     page === 'ems' ? emsinputs.push({question: title, userinput: ""}) : policeinputs.push({question: title, userinput: ""})
     }
 }
-// pushEmsSteps(emsQuestions)
-let policeSteps = []
-let policeallstep;
-const pushPoliceSteps = (data) => {
-    policeallstep = Math.ceil(data.length / 5)  
-    let stepover = 6  
-    for (let index = 1; index < policeallstep+1; index++) {
-        console.log(index)
-        document.querySelector('#police-steps-container').innerHTML += `
-        <div class='policestep${index} ems-steps ${index === 1 ? '' : 'hide'}'></div>
-        `
-        policeSteps.push(`.policestep${index}`)
-        data.slice(stepover - 6,stepover).map((item) => pushStepQuestions(item, `.policestep${index}`, 'police'))
-        stepover += 5
-    }
+// TESTING PUSH APPLICABLE JOBS
+const pushApplicableJobs = (data) => {
+    Object.keys(data).forEach(function(key){
+        sideMenu.map((item) => {
+            const {name, content} = item
+            if(name === key){
+                if(data[`${name}Application`]?.applicationSubmitted){
+                    const {applicationStatus} = data[`${name}Application`]
+                    content.innerHTML = `
+                    <section class="requestcontent" id="${name}request">
+                        <div class="relative">
+                        <h2 class="upper">${name}</h2>
+                        <div class="applicationstatus">
+                            <div class="status flexsmall">
+                            <button class="semibold fs ${applicationStatus} ${name}status">application ${applicationStatus}</button>
+                            <div class="edit">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                <path d="M19.0538 9.09041L14.868 4.94795L16.2469 3.56712C16.6244 3.18904 17.0883 3 17.6385 3C18.1887 3 18.6523 3.18904 19.0292 3.56712L20.408 4.94795C20.7856 5.32603 20.9826 5.78236 20.999 6.31693C21.0154 6.85151 20.8348 7.30751 20.4573 7.68493L19.0538 9.09041ZM17.6257 10.5452L7.18581 21H3V16.8082L13.4399 6.35342L17.6257 10.5452Z" fill="#CDB5FF" fill-opacity="0.5"/>
+                                </svg>
+                            </div>
+                        </div>
+                        </div>
+                    </section>
+                    `
+                } else {
+                    let steps = []
+                    let allstep = Math.ceil(data[key].length / 5)
+                    let stepover = 6
+                    for (let index = 1; index < allstep+1; index++) {
+                        steps.push(`${name}step${index}`)                    
+                    }
+                    content.innerHTML= `
+                        <section class="questions" id="${name}RequestSteps">
+                            <div>
+                                <h2 class="upper">${name}</h2>
+                                <section class="flexsmall ${name}steps"></section>
+                            </div>
+                            <section id="${name}-steps-container"></section>
+                            <div class="ems-btns">
+                            <button class="previous bold fs pointer" id="${name}prevBtn">PREVIOUS STEP</button>
+                            <button class="next bold fs pointer" id="${name}nextBtn">NEXT STEP</button>
+                            <button class="next bold fs pointer hidden" id="${name}submitBtn">SEND REQUEST</button>
+                            </div>
+                        </section>
+                        <section class="hide requestcontent" id="${name}request">
+                            <div class="relative">
+                            <h2 class="upper">${name}</h2>
+                            <div class="applicationstatus">
+                                <div class="status flexsmall">
+                                <button class="semibold fs pending ${name}status">Application pending</button>
+                                <div class="edit">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                    <path d="M19.0538 9.09041L14.868 4.94795L16.2469 3.56712C16.6244 3.18904 17.0883 3 17.6385 3C18.1887 3 18.6523 3.18904 19.0292 3.56712L20.408 4.94795C20.7856 5.32603 20.9826 5.78236 20.999 6.31693C21.0154 6.85151 20.8348 7.30751 20.4573 7.68493L19.0538 9.09041ZM17.6257 10.5452L7.18581 21H3V16.8082L13.4399 6.35342L17.6257 10.5452Z" fill="#CDB5FF" fill-opacity="0.5"/>
+                                    </svg>
+                                </div>
+                            </div>
+                            </div>
+                        </section>
+                    `
+                    document.querySelector(`#${name}prevBtn`).addEventListener("click", () => {
+                        prevStep(name, allstep, steps)
+                    })
+                    document.querySelector(`#${name}nextBtn`).addEventListener("click", () => {
+                        nextStep(name, allstep, steps)
+                    })
+                    document.querySelector(`#${name}submitBtn`).addEventListener("click", () => {
+                        sendRequest(name, data)
+                    })
+                    for (let index = 1; index < allstep+1; index++) {
+                        document.querySelector(`#${name}-steps-container`).innerHTML += `
+                        <div class='${name}step${index} ems-steps ${index === 1 ? '' : 'hide'}'></div>
+                        `
+                        data[key].slice(stepover - 6,stepover).map((item) => pushStepQuestions(item, `.${name}step${index}`, `${name}`))
+                        stepover += 5
+                    }
+                    for (let index = 0; index < allstep; index++) {
+                        document.querySelector(`.${name}steps`).innerHTML += `
+                        <p class="fm step bold ${name}stepindicator${index+1}">${index + 1}</p>
+                        <span class="dashstep ${name}dash${index+1}"></span>
+                        `
+                    }
+                    if(allstep === 1 ){
+                        document.querySelector(`.${name}steps`).innerHTML = ''
+                        getElement(`#${name}submitBtn`).classList.remove('hidden')
+                        getElement(`#${name}nextBtn`).classList.add('hidden')
+                        getElement(`#${name}prevBtn`).classList.add('hidden')
+                    }
+                }
+                
+            }
+        })
+    })
 }
-pushPoliceSteps(applicableJobs.police);
-let emsSteps = []
-let emsallstep = 1;
-const pushEmsSteps = (data) => {
-    emsallstep = Math.ceil(data.length / 5)  
-    let emsstepover = 6  
-    for (let index = 1; index < emsallstep+1; index++) {
-        document.querySelector('#ems-steps-container').innerHTML += `
-        <div class='emsstep${index} ems-steps ${index === 1 ? '' : 'hide'}'></div>
-        `
-        emsSteps.push(`.emsstep${index}`)
-        data.slice(emsstepover - 6,emsstepover).map((item) => pushStepQuestions(item, `.emsstep${index}`, 'ems'))
-        emsstepover += 5
-    }
+pushApplicableJobs(applicableJobs)
+// POLICE
+const toggleDropDown = (name) => {
+    getElement(name).classList.toggle('activedropdown');
+    getElement(name + 'dropdown').classList.toggle('hidden');
+    getElement(name + 'dropdown').classList.toggle('daysdropdown');
 }
-pushEmsSteps(applicableJobs.ems)
+
 const saveInput = (title, id, page) => {
     let value = getElement(`#${id}`).value
     if(page === 'ems'){
@@ -398,77 +367,53 @@ const saveInput = (title, id, page) => {
         })
     }
 }
-// getElement('.menu-ems').addEventListener('click', () => {
-//     getElement('#applicationSteps').classList.remove("hide")
-//     getElement('#applicationContents').classList.add("hide")
-// })
-// getElement('.menu-police').addEventListener('click', () => {
-//     getElement('#policeRequestSteps').classList.remove("hide")
-//     getElement('#policeApplicationContents').classList.add("hide")
-// })
 const activeStateOn = (id) => {
         getElement(`#${id}`).classList.add('inputactive')
 }
 const activeStateOut = (id) => {
     getElement(`#${id}`).classList.remove('inputactive')
 }
-const pushEmsStepsIndicator = () => {
-    for (let index = 0; index < emsallstep; index++) {
-        document.querySelector('.steps').innerHTML += `
-        <p class="fm step bold stepindicator${index+1}">${index + 1}</p>
-        <span class="dashstep dash${index+1}"></span>
-        `
-    }
-}
-pushEmsStepsIndicator()
-// SWITCH TO NEXT AND PREVIOUS STEP
-if(emsallstep === 1 ){
-    document.querySelector('.steps').innerHTML = ''
-    getElement('#submitBtn').classList.remove('hidden')
-    getElement('#nextBtn').classList.add('hidden')
-    getElement('#prevBtn').classList.add('hidden')
-} else {
-    getElement('.stepindicator1').style.background = 'rgba(124, 62, 255, 0.8)'
-}
+
 let stepCount = 0
-const nextStep = () => {
-    if(stepCount >= 0 && stepCount < emsallstep ){
+const nextStep = (name, totalsteps, steps) => {
+    if(stepCount >= 0 && stepCount < totalsteps ){
         stepCount ++
-        getElement(`.dash${stepCount}`).classList.toggle('green')
-        getElement(`.stepindicator${stepCount}`).classList.add('done')
-        getElement(`.stepindicator${stepCount}`).innerHTML = `
+        getElement(`.${name}dash${stepCount}`).classList.toggle('green')
+        getElement(`.${name}stepindicator${stepCount}`).classList.add('done')
+        getElement(`.${name}stepindicator${stepCount}`).innerHTML = `
         <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
         <path d="M13.8182 22L8 16.2857L10.0364 14.2857L13.8182 18L21.9636 10L24 12L13.8182 22Z" fill="#57FFAF"/>
         </svg>`
-        getElement(`.stepindicator${stepCount + 1}`).style.background = 'rgba(124, 62, 255, 0.8)';
+        getElement(`.${name}stepindicator${stepCount + 1}`).style.background = 'rgba(124, 62, 255, 0.8)';
+        
         steps.map((step) => {
-            if(emsSteps[stepCount] === step){
-                document.querySelector(step).classList.remove('hide')
+            if(steps[stepCount] === step){
+                document.querySelector(`.${step}`).classList.remove('hide')
             } else {
-                document.querySelector(step).classList.add('hide')
+                document.querySelector(`.${step}`).classList.add('hide')
             }
         })
-        if(stepCount === emsallstep - 1){
-            getElement('#submitBtn').classList.remove('hidden')
-            getElement('#nextBtn').classList.add('hidden')
+        if(stepCount === totalsteps - 1){
+            getElement(`#${name}submitBtn`).classList.remove('hidden')
+            getElement(`#${name}nextBtn`).classList.add('hidden')
         }
     } 
 }
-const prevStep = () => {
+const prevStep = (name, totalsteps, steps) => {
     if(stepCount > 0){
         stepCount --
-        getElement(`.dash${stepCount+1}`).classList.toggle('green')
-        getElement(`.stepindicator${stepCount + 1}`).classList.remove('done')
-        getElement(`.stepindicator${stepCount + 1}`).innerHTML = stepCount + 1
-        getElement(`.stepindicator${stepCount + 2}`).style.background = 'rgba(124, 62, 255, 0.2)';
+        getElement(`.${name}dash${stepCount+1}`).classList.toggle('green')
+        getElement(`.${name}stepindicator${stepCount + 1}`).classList.remove('done')
+        getElement(`.${name}stepindicator${stepCount + 1}`).innerHTML = stepCount + 1
+        getElement(`.${name}stepindicator${stepCount + 2}`).style.background = 'rgba(124, 62, 255, 0.2)';
         steps.map((step) => {
             if(steps[stepCount] == step){
-                document.querySelector(step).classList.remove('hide')
+                document.querySelector(`.${step}`).classList.remove('hide')
             } else {
-                document.querySelector(step).classList.add('hide')
+                document.querySelector(`.${step}`).classList.add('hide')
             }
-            getElement('#submitBtn').classList.add('hidden')
-            getElement('#nextBtn').classList.remove('hidden')
+            getElement(`#${name}submitBtn`).classList.add('hidden')
+            getElement(`#${name}nextBtn`).classList.remove('hidden')
         })
     }
 }
@@ -519,164 +464,26 @@ const selectOption = (title, elem, page) => {
     }
 }
 // SUBMIT APPLICATION
-const submitApplication = () => {
-    console.log(emsinputs)
-    document.querySelector('.steps').innerHTML = ""
-    pushEmsStepsIndicator()
-    getElement('.stepindicator1').style.background = 'rgba(124, 62, 255, 0.8)'
-    getElement('#submitBtn').classList.add('hidden')
-    getElement('#nextBtn').classList.remove('hidden')
+const sendRequest = (name, data) => {
+    const newstatus = {
+        applicationSubmitted: true,
+        applicationStatus: "pending"
+    }
+    data[`${name}Application`] = newstatus;
+    console.log(data)
+    if(name === 'ems'){
+        console.log(emsinputs);
+    } else if(name === 'police'){
+        console.log(policeinputs);
+    }
+    pushApplicableJobs(data)
     stepCount = 0
-    getElement('#applicationSteps').classList.add("hide")
-    getElement('#applicationContents').classList.remove("hide")
     getElement('.applicationReceived').classList.remove('hide')
     setTimeout(() => {
         getElement('.applicationReceived').classList.add('hide')
     }, 4000);
 }
-const sendPoliceRequest = () => {
-    console.log(policeinputs)
-    document.querySelector('.policesteps').innerHTML = ""
-    pushPoliceStepsIndicator()
-    getElement('.policestepindicator1').style.background = 'rgba(124, 62, 255, 0.8)'
-    getElement('#submitBtnPolice').classList.add('hidden')
-    getElement('#nextBtnPolice').classList.remove('hidden')
-    policeStepCount = 0
-    getElement('#policeRequestSteps').classList.add("hide")
-    getElement('#policeApplicationContents').classList.remove("hide")
-    getElement('.applicationReceived').classList.remove('hide')
-    setTimeout(() => {
-        getElement('.applicationReceived').classList.add('hide')
-    }, 4000);
-}
-// let applicationsData = [
-//     {
-//         name: "Alicia Keyys",
-//         id: 151,
-//         expiresIn: "2 days",
-//         status: "pending",
-//         role: "driver",
-//         department: "delivery",
-//         imageUrl: "images/character.png"
-//     },
-// ]
-// const uploadApplications = (data) => {
-//     getElement('.applications').innerHTML = ''
-//     data.map((app) => {
-//         const {name, id, expiresIn, status, role, department, imageUrl} = app;
-//         getElement('.applications').innerHTML += `
-//         <div class="application">
-//         <div class="image-box"><img src="${imageUrl}" alt=""></div>
-//         <article>
-//           <h3 class="semibold fm">${name}</h3>
-//           <div class="details flexsmall">
-//             <p>${role}</p><span class="dot"></span>
-//             <p>${department}</p><span class="dot"></span>
-//             <p>ID: ${id}</p>
-//           </div>
-//         </article>
-//         <div class="cancel" onclick="deleteApplication(${id})">
-//           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-//             <path d="M14.0932 15L10.0032 10.9062L5.91318 15L5 14.0874L9.09646 10L5 5.9126L5.91318 5L10.0032 9.09383L14.0932 5.00643L15 5.9126L10.91 10L15 14.0874L14.0932 15Z" fill="#FF6565" fill-opacity="0.6"/>
-//             </svg>
-//         </div>
-//         <div class="due">in ${expiresIn}</div>
-//       </div>
-//         `
-//     })
-// }
-// uploadApplications(applicationsData);
-// const deleteApplication = (id) => {
-//     applicationsData = applicationsData.filter((application) => application.id !== id);
-//     uploadApplications(applicationsData);
-// }
 
-const pushPoliceStepsIndicator = () => {
-    for (let index = 0; index < policeallstep; index++) {
-        document.querySelector('.policesteps').innerHTML += `
-        <p class="fm step bold policestepindicator${index+1}">${index + 1}</p>
-        <span class="dashstep policedash${index+1}"></span>
-        `
-    }
-}
-pushPoliceStepsIndicator()
-
-let policeStepCount = 0
-if(policeallstep === 1 ){
-    document.querySelector('.policesteps').innerHTML = ''
-    getElement('#submitBtnPolice').classList.remove('hidden')
-    getElement('#nextBtnPolice').classList.add('hidden')
-    getElement('#prevBtnPolice').classList.add('hidden')
-} else {
-    getElement('.policestepindicator1').style.background = 'rgba(124, 62, 255, 0.8)';
-}
-const nextPoliceStep = () => {
-    if(policeStepCount >= 0 && policeStepCount < policeallstep ){
-        policeStepCount ++
-        getElement(`.policedash${policeStepCount}`).classList.toggle('green')
-        getElement(`.policestepindicator${policeStepCount}`).classList.add('done')
-        getElement(`.policestepindicator${policeStepCount}`).innerHTML = `
-        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
-        <path d="M13.8182 22L8 16.2857L10.0364 14.2857L13.8182 18L21.9636 10L24 12L13.8182 22Z" fill="#57FFAF"/>
-        </svg>`
-        getElement(`.policestepindicator${policeStepCount + 1}`).style.background = 'rgba(124, 62, 255, 0.8)';
-        policeSteps.map((step) => {
-            if(policeSteps[policeStepCount] === step){
-                document.querySelector(step).classList.remove('hide')
-            } else {
-                document.querySelector(step).classList.add('hide')
-            }
-        })
-        if(policeStepCount === policeallstep - 1){
-            getElement('#submitBtnPolice').classList.remove('hidden')
-            getElement('#nextBtnPolice').classList.add('hidden')
-        }
-    } 
-}
-const prevPoliceStep = () => {
-    if(policeStepCount > 0){
-        policeStepCount --
-        getElement(`.policedash${policeStepCount+1}`).classList.toggle('green')
-        getElement(`.policestepindicator${policeStepCount + 1}`).classList.remove('done')
-        getElement(`.policestepindicator${policeStepCount + 1}`).innerHTML = policeStepCount + 1
-        getElement(`.policestepindicator${policeStepCount + 2}`).style.background = 'rgba(124, 62, 255, 0.2)';
-        policeSteps.map((step) => {
-            if(policeSteps[policeStepCount] == step){
-                document.querySelector(step).classList.remove('hide')
-            } else {
-                document.querySelector(step).classList.add('hide')
-            }
-            getElement('#submitBtnPolice').classList.add('hidden')
-            getElement('#nextBtnPolice').classList.remove('hidden')
-        })
-    }
-}
-// const uploadPoliceApplication = (data) => {
-//     getElement('.policeapplications').innerHTML = ''
-//     data.map((app) => {
-//         const {name, id, expiresIn, status, role, department, imageUrl} = app;
-//         getElement('.policeapplications').innerHTML += `
-//         <div class="application">
-//         <div class="image-box"><img src="${imageUrl}" alt=""></div>
-//         <article>
-//           <h3 class="semibold fm">${name}</h3>
-//           <div class="details flexsmall">
-//             <p>${role}</p><span class="dot"></span>
-//             <p>${department}</p><span class="dot"></span>
-//             <p>ID: ${id}</p>
-//           </div>
-//         </article>
-//         <div class="cancel" onclick="deleteApplication(${id})">
-//           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-//             <path d="M14.0932 15L10.0032 10.9062L5.91318 15L5 14.0874L9.09646 10L5 5.9126L5.91318 5L10.0032 9.09383L14.0932 5.00643L15 5.9126L10.91 10L15 14.0874L14.0932 15Z" fill="#FF6565" fill-opacity="0.6"/>
-//             </svg>
-//         </div>
-//         <div class="due">in ${expiresIn}</div>
-//       </div>
-//         `
-//     })
-// }
-// uploadPoliceApplication(applicationsData)
 // ESCAPE KEY BACK
 document.addEventListener('keydown', evt => {
     if (evt.key === 'Escape') {
