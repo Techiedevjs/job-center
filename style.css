@@ -366,12 +366,6 @@ body{
 .hot-jobs-list section div .location-svg:hover svg g path, .status .edit:hover svg path{
     fill-opacity: 1;
 }
-.police-content form{
-    display: flex;
-    flex-direction: column;
-    gap:calc(0.6 * var(--gap));
-    height: 50vh;
-}
 input, textarea{
     width: 100%;
     background: transparent;
@@ -380,14 +374,14 @@ input, textarea{
     border: none;
     font-size: var(--fontsmall);
 }
-.inputbox, .textareabox, form section{
+.inputbox, .textareabox{
     width: 100%;
     border-radius: calc(0.8 * var(--radius));
     border: 1px solid rgba(255, 255, 255, 0.15);
     background: rgba(255, 255, 255, 0.02);
     padding: var(--padmedium);
 }
-.inputbox:hover,  .textareabox:hover,  form section:hover, .dropdown:hover{
+.inputbox:hover,  .textareabox:hover, .dropdown:hover{
     border: 1px solid rgba(255, 255, 255, 0.50);
     background: rgba(255, 255, 255, 0.05);
 }
@@ -403,27 +397,6 @@ input, textarea{
     resize: none;
     height: 100%;
 }
- form button{
-    padding: var(--padmedium) var(--padlarge);
-    width: 40%;
-    border-radius: var(--radius);
-    background: rgba(124, 62, 255, 0.50);
-    border: none;
-    letter-spacing: 2.24px;
-    color: white;
-    margin: auto;
-}
- form section{
-    display: flex;
-    justify-content: space-between;
-    gap: var(--gap);
-    padding: var(--padlittle) var(--padmedium);
-}
- form section p, .dropdown p{
-    color: rgba(255, 255, 255, 0.60);
-    font-weight: 400;
-    letter-spacing: 0.8px;
-}
 .days{
     font-size: calc(0.8 * var(--fontxsmall));
     border: rgba(255, 255, 255, 0.15) solid 1px;
@@ -432,9 +405,6 @@ input, textarea{
 }
 .days svg{
     height:calc(0.5 * var(--fontxsmall));
-}
- form section:hover .days{
-    background: rgba(255, 255, 255, 0.20);
 }
 .checkbox{
     display: flex;
@@ -457,17 +427,17 @@ input, textarea{
 .checkbox:hover{
     border: rgba(124, 62, 255, 0.8) 2px solid;
 }
-.policequestions, .emsquestions{
+.questions{
     height: 100%;
     display: flex;
     justify-content: space-around;
     flex-direction: column;
     gap: var(--gap);
 }
-#policeApplicationContents{
+.requestcontent{
     height: 100%;
 }
-#policeApplicationContents .relative{
+.requestcontent .relative{
     height: 100%;
 }
 .ems-content{
@@ -476,15 +446,11 @@ input, textarea{
     height: 100%;
     flex-direction: column;
 }
-#ems-steps-container, #police-steps-container{
-    flex: 1;
-}
 .ems-steps{
     display: flex;
     flex-direction: column;
     overflow-y: scroll;
     height: 35vh;
-    /* padding-top: var(--padmedium); */
     padding-right: var(--padmedium);
     gap: var(--gap);
 }
@@ -570,15 +536,6 @@ input, textarea{
     width: 100%;
     padding: var(--padlittle) var(--padmedium);
 }
-/* .dropdowntitle{
-    color: rgba(255, 255, 255, 0.60);
-    font-weight: 600;
-    letter-spacing: 0.8px;
-    font-size: calc(0.8 * var(--fontxsmall));
-    border: rgba(255, 255, 255, 0.15) solid 1px;
-    border-radius: calc(0.8 * var(--radius));
-    padding: var(--padmedium);
-} */
 .dropdown:hover .days{
     background: rgba(255, 255, 255, 0.20);
 }
@@ -599,58 +556,17 @@ input, textarea{
     mix-blend-mode: lighten;
     height: 20vh;
     z-index: 30;
+    aspect-ratio: 2/1;
 }
 .applicationReceived p{
     color: rgba(255, 255, 255, 0.65);
 }
-.applicationPending{
+.applicationstatus{
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     font-size: var(--fontlarge);
-}
-.applications, .policeapplications{
-    display: flex;
-    flex-direction: column;
-    gap: var(--gap);
-    padding-right: var(--padmedium);
-    margin-top: var(--padmedium);
-}
-.application{
-    border-radius: var(--radius);
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    background: rgba(255, 255, 255, 0.02);
-    display: flex;
-    gap: var(--gap);
-    padding: var(--padmedium);
-    position: relative;
-}
-.application article{
-    display: flex;
-    flex-direction: column;
-    gap:calc(0.5 * var(--padlittle));
-    justify-content: center;
-}
-.application .image-box{
-    width: 20%;
-    aspect-ratio: 1/1;
-}
-.application .image-box img{
-    width: 100%;
-    height: 100%;
-}
-.application .details{
-    font-size: var(--fontsmall);
-    font-weight: 500;
-    text-transform: uppercase;
-    color: rgba(255, 255, 255, 0.46);
-}
-.dot{
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background-color: rgba(255, 255, 255, 0.35);
 }
 .status{ 
     align-items: initial !important;
@@ -663,7 +579,6 @@ input, textarea{
 }
 .edit{
     border-radius: calc(0.8 * var(--radius));
-    /* height: 100%; */
     padding: 0 var(--padlittle);
     background: rgba(124, 62, 255, 0.20);
     display: flex;
@@ -675,48 +590,17 @@ input, textarea{
     height: var(--fontlarge);
     aspect-ratio: 1/1;
 }
-.application .cancel{
-    position: absolute;
-    top: var(--padmedium);
-    right: var(--padmedium);
-    background-color: rgba(255, 101, 101, 0.15);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-    border: rgba(241, 51, 51, 1) 1px solid;
-    border-radius: calc(0.5 * var(--radius));
-    padding: 4px;
-}
-.application .cancel:hover{
-    border: 1px solid rgba(255, 101, 101, 0.8);
-    background-color: rgba(255, 101, 101, 0.3);
-}
-.application .cancel:hover svg path{
-    fill-opacity: rgba(255, 101, 101, 0.8);
-}
-.application .due{
-    position: absolute;
-    bottom: 0;
-    right: 0; 
-    padding: var(--padlittle) var(--padmedium);
-    text-transform: uppercase;
-    background: rgba(255, 255, 255, 0.46);
-    border-radius:  var(--fontxsmall) 0 var(--fontxsmall);
-    color: rgba(255, 255, 255, 0.9);
-    font-size: calc(0.8 * var(--fontxsmall));
-}
 .status .pending{
     color: #63B4FF;
     background-color: rgba(99, 180, 255, 0.05);
     border: 1px solid  rgba(99, 180, 255, 0.25);
 }
-.application .status .rejected{
+.status .rejected{
     color: #F13333;
     background-color: rgba(241, 51, 51, 0.05);
     border: 1px solid  rgba(241, 51, 51, 0.25);
 }
-.application .status .approved{
+.status .approved{
     color: #57FFAF;
     border: 1px solid rgba(87, 255, 175, 0.2);
     background-color: rgba(87, 255, 175, 0.05);
