@@ -2,88 +2,92 @@ const getElement = (elem) => {
     return document.querySelector(elem);
 }
 const applicableJobs = {
-    ems: [
-        {
-            title: "Your Name1",
-            type: 'input',
-            id:"name"
-        },
-        {
-            title: "Briefly About You",
-            type: 'textarea',
-            id:"about"
-        },
-        {
-            title: "Country",
-            type: 'input',
-            id:"country"
-        },
-        {
-            title: "IQ status",
-            type: 'dropdown',
-            id:"IQ",
-            dropdowncontents: ['high', 'medium', 'low'],
-            dropdowntitle: "IQ status"
-        },
-        {
-            title: "ready for sentence",
-            type: "checkbox",
-            id: "sentencecheck"
-        },
-    ],
-    emsApplication: {
+    ems: {
         applicationSubmitted: true,
-        applicationStatus: "approved"
+        applicationStatus: "approved",
+        questions: [
+            {
+                title: "Your Name1",
+                type: 'input',
+                id:"name"
+            },
+            {
+                title: "Briefly About You",
+                type: 'textarea',
+                id:"about"
+            },
+            {
+                title: "Country",
+                type: 'input',
+                id:"country"
+            },
+            {
+                title: "IQ status",
+                type: 'dropdown',
+                id:"IQ",
+                dropdowncontents: ['high', 'medium', 'low'],
+                dropdowntitle: "IQ status"
+            },
+            {
+                title: "ready for sentence",
+                type: "checkbox",
+                id: "sentencecheck"
+            },
+        ],
+        inputs: [] 
     },
-    police:[
-        {
-            title: "Your Name1",
-            type: 'input',
-            id:"policename"
-        },
-        {
-            title: "Briefly About You",
-            type: 'textarea',
-            id:"policeabout"
-        },
-        {
-            title: "Country",
-            type: 'input',
-            id:"policecountry"
-        },
-        {
-            title: "Marital status",
-            type: 'dropdown',
-            id:"marital",
-            dropdowncontents: ['married', 'single', 'divorced'],
-            dropdowntitle: "marital status"
-        },
-        {
-            title: "ready for deployment",
-            type: "checkbox",
-            id: "deploymentcheck"
-        },
-        {
-            title: "chill first",
-            type: 'textarea',
-            id:"applcheckii"
-        },
-        {
-            title: "State",
-            type: 'input',
-            id:"statekinda"
-        },
-        {
-            title: "ready for work",
-            type: "checkbox",
-            id: "readycheck"
-        },
-        {
-            title: "ready for vacation",
-            type: "checkbox",
-            id: "vacationcheck"
-        }
-    ],
+    police:{
+        questions: [
+            {
+                title: "Your Name1",
+                type: 'input',
+                id:"policename"
+            },
+            {
+                title: "Briefly About You",
+                type: 'textarea',
+                id:"policeabout"
+            },
+            {
+                title: "Country",
+                type: 'input',
+                id:"policecountry"
+            },
+            {
+                title: "Marital status",
+                type: 'dropdown',
+                id:"marital",
+                dropdowncontents: ['married', 'single', 'divorced'],
+                dropdowntitle: "marital status"
+            },
+            {
+                title: "ready for deployment",
+                type: "checkbox",
+                id: "deploymentcheck"
+            },
+            {
+                title: "chill first",
+                type: 'textarea',
+                id:"applcheckii"
+            },
+            {
+                title: "State",
+                type: 'input',
+                id:"statekinda"
+            },
+            {
+                title: "ready for work",
+                type: "checkbox",
+                id: "readycheck"
+            },
+            {
+                title: "ready for vacation",
+                type: "checkbox",
+                id: "vacationcheck"
+            }
+        ],
+        inputs: []
+    },
     mechanic: [
 
     ]
@@ -226,7 +230,7 @@ const pushStepQuestions = (stepData, elem, page) => {
             <p>${title}</p>
         </div>
         `
-        page === 'ems' ? emsinputs.push({question: title, userpick: false}) : policeinputs.push({question: title, userpick: false})
+        applicableJobs[page].inputs.push({question: title, userpick: false})
     } 
     else {
         getElement(elem).innerHTML += `
@@ -240,7 +244,7 @@ const pushStepQuestions = (stepData, elem, page) => {
         }
     </div>
     `
-    page === 'ems' ? emsinputs.push({question: title, userinput: ""}) : policeinputs.push({question: title, userinput: ""})
+    applicableJobs[page].inputs.push({question: title, userinput: ""})
     }
 }
 // TESTING PUSH APPLICABLE JOBS
@@ -249,8 +253,8 @@ const pushApplicableJobs = (data) => {
         sideMenu.map((item) => {
             const {name, content} = item
             if(name === key){
-                if(data[`${name}Application`]?.applicationSubmitted){
-                    const {applicationStatus} = data[`${name}Application`]
+                if(data[key].applicationSubmitted){
+                    const {applicationStatus} = data[key]
                     content.innerHTML = `
                     <section class="requestcontent" id="${name}request">
                         <div class="relative">
@@ -269,7 +273,7 @@ const pushApplicableJobs = (data) => {
                     `
                 } else {
                     let steps = []
-                    let allstep = Math.ceil(data[key].length / 5)
+                    let allstep = Math.ceil(data[key].questions.length / 5)
                     let stepover = 6
                     for (let index = 1; index < allstep+1; index++) {
                         steps.push(`${name}step${index}`)                    
@@ -315,7 +319,7 @@ const pushApplicableJobs = (data) => {
                         document.querySelector(`#${name}-steps-container`).innerHTML += `
                         <div class='${name}step${index} ems-steps ${index === 1 ? '' : 'hide'}'></div>
                         `
-                        data[key].slice(stepover - 6,stepover).map((item) => pushStepQuestions(item, `.${name}step${index}`, `${name}`))
+                        data[key].questions.slice(stepover - 6,stepover).map((item) => pushStepQuestions(item, `.${name}step${index}`, `${name}`))
                         stepover += 5
                     }
                     for (let index = 0; index < allstep; index++) {
@@ -346,26 +350,13 @@ const toggleDropDown = (name) => {
 
 const saveInput = (title, id, page) => {
     let value = getElement(`#${id}`).value
-    if(page === 'ems'){
-        emsinputs = emsinputs.map((i) => {
-            const { question } = i
-            if(question === title){
-                return {...i, userinput: value}
-            } else {
-                return {...i}
-            }
-        })
-    }
-    else if(page === 'police'){
-        policeinputs = policeinputs.map((i) => {
-            const { question } = i
-            if(question === title){
-                return {...i, userinput: value}
-            } else {
-                return {...i}
-            }
-        })
-    }
+    applicableJobs[page].inputs = applicableJobs[page].inputs.map((i) => {
+        if(i.question === title){
+            return {...i, userinput: value}
+        } else {
+            return {...i}
+        }
+    })
 }
 const activeStateOn = (id) => {
         getElement(`#${id}`).classList.add('inputactive')
@@ -419,63 +410,30 @@ const prevStep = (name, totalsteps, steps) => {
 }
 const selectValue = (value, title, page) => {
     document.querySelector(`.${value}check`).classList.toggle('hidden');
-    if(page === 'ems'){
-        emsinputs = emsinputs.map((i) => {
-            const { question } = i
-            if(question === title){
-                i.userpicks.push(value)
-                return {...i}
-            } else {
-                return {...i}
-            }
-        })
-    } else if(page === 'police'){
-        policeinputs = policeinputs.map((i) => {
-            const { question } = i
-            if(question === title){
-                i.userpicks.push(value)
-                return {...i}
-            } else {
-                return {...i}
-            }
-        })
-    }
+    applicableJobs[page].inputs = applicableJobs[page].inputs.map((i) => {
+        if(i.question === title){
+            i.userpicks.push(value)
+            return {...i}
+        } else {
+            return {...i}
+         }
+    })
 }
 const selectOption = (title, elem, page) => {
     document.querySelector(`.${elem}check`).classList.toggle('hidden');
-    if(page === 'ems'){
-        emsinputs = emsinputs.map((i) => {
-            if(i.question === title){
-                i.userpick = !i.userpick
-                return {...i}
-            } else {
-                return {...i}
-            }
-        })
-    } else if(page === 'police'){
-        policeinputs = policeinputs.map((i) => {
-            if(i.question === title){
-                i.userpick = !i.userpick
-                return {...i}
-            } else {
-                return {...i}
-            }
-        })
-    }
+    applicableJobs[page].inputs = applicableJobs[page].inputs.map((i) => {
+        if(i.question === title){
+            i.userpick = !i.userpick
+            return {...i}
+        } else {
+            return {...i}
+        }
+    })
 }
 // SUBMIT APPLICATION
 const sendRequest = (name, data) => {
-    const newstatus = {
-        applicationSubmitted: true,
-        applicationStatus: "pending"
-    }
-    data[`${name}Application`] = newstatus;
-    console.log(data)
-    if(name === 'ems'){
-        console.log(emsinputs);
-    } else if(name === 'police'){
-        console.log(policeinputs);
-    }
+    data[name].applicationSubmitted = true;
+    data[name].applicationStatus = "pending";
     pushApplicableJobs(data)
     stepCount = 0
     getElement('.applicationReceived').classList.remove('hide')
